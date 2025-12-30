@@ -5,6 +5,10 @@
 	max-height: 100%;
 	margin: auto;
 	contain: paint;
+	text-align: center;
+	button {
+		margin-top: var(--margin-2);
+	}
 	video {
 		aspect-ratio: var(--aspect-ratio);
 		object-position: bottom;

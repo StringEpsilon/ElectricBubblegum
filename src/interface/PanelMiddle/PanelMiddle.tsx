@@ -19,7 +19,9 @@ export function PanelMiddle() {
 				</button>
 			</div>
 			{playArea == "video" && <EmulatorVideo />}
-			{playArea == "options" && <div class="config-panel">TBD</div>}
+			{playArea == "options" && <div class="config-panel">
+				Options will be added at a later date.
+				</div>}
 			{playArea == "license" && <Legal />}
 		</div>
 	);

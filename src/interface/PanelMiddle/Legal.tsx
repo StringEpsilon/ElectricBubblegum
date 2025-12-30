@@ -2,7 +2,7 @@
 export function Legal() {
 	return (
 		<div class="config-panel">
-			<h2> Electric Bubblegum </h2>
+			<h2>Electric Bubblegum </h2>
 			<p>
 				Copyright 2025 - String.Epsilon
 			</p>
@@ -41,11 +41,6 @@ export function Legal() {
 					<tr>
 						<td>@microsoft/signalr</td>
 						<td>Microsoft</td>
-						<td>Apache-2.0</td>
-					</tr>
-					<tr>
-						<td>Material Icons</td>
-						<td>Google</td>
 						<td>Apache-2.0</td>
 					</tr>
 					<tr>

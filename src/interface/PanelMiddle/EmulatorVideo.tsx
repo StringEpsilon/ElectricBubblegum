@@ -7,7 +7,7 @@ export function EmulatorVideo() {
 	if (context.source === null) {
 		return (
 			<div class="video-container">
-				<button type="button" onClick={() => context.requestSource()}>Record</button>
+				<button type="button" onClick={() => context.requestSource()}>Capture emulator window</button>
 			</div>
 		);
 	}

@@ -1,6 +1,8 @@
 @scope(.panel-middle) {
-	height: calc(100vh - 40px - var(--margin-2));
-	flex-grow: 1;
+	:scope {
+		height: calc(100vh - 40px - var(--margin-2));
+		flex-grow: 1;
+	}
 		
 	.middle-tabs {
 		display: flex;
