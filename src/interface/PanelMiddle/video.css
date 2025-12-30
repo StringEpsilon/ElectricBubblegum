@@ -1,0 +1,22 @@
+.video-container {
+	border: 2px solid var(--color-border-1);
+	overflow: hidden;
+	aspect-ratio: var(--aspect-ratio);
+	max-height: 100%;
+	margin: auto;
+	contain: paint;
+	video {
+		aspect-ratio: var(--aspect-ratio);
+		object-position: bottom;
+		object-fit: cover;
+	} 
+}
+
+@scope (.nds) { 
+	.video-container {
+		video {
+			aspect-ratio: 2 / 3;
+			height: revert-layer;
+		}
+	}
+}

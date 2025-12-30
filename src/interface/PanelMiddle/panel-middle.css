@@ -1,0 +1,21 @@
+@scope(.panel-middle) {
+	height: calc(100vh - 40px - var(--margin-2));
+	flex-grow: 1;
+		
+	.middle-tabs {
+		display: flex;
+		gap: var(--margin-0);
+		flex-direction: row;
+		margin: auto;
+		max-width: fit-content;
+	}
+
+	.config-panel {
+		overflow: hidden;
+		aspect-ratio: var(--aspect-ratio);
+		max-height: 100%;
+		margin: auto;
+		border: 2px solid var(--color-border-1);
+		padding: var(--margin-1);
+	}	
+}

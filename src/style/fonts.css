@@ -1,0 +1,36 @@
+/* Font css code generated with https://fontsource.org/fonts/roboto/install */
+/* roboto-latin-wght-normal */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(@fontsource-variable/roboto/files/roboto-latin-wght-normal.woff2) format('woff2-variations');
+}
+
+/* roboto-latin-ext-wght-normal */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(@fontsource-variable/roboto/files/roboto-latin-ext-wght-normal.woff2) format('woff2-variations');
+}
+
+/* roboto-mono-latin-wght-normal */
+@font-face {
+  font-family: 'Roboto Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 700;
+  src: url(@fontsource-variable/roboto-mono/files/roboto-mono-latin-wght-normal.woff2) format('woff2-variations');
+}
+
+/* roboto-mono-latin-ext-wght-normal */
+@font-face {
+  font-family: 'Roboto Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 700;
+  src: url(@fontsource-variable/roboto-mono/files/roboto-mono-latin-ext-wght-normal.woff2) format('woff2-variations');
+}

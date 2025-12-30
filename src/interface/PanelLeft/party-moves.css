@@ -1,0 +1,41 @@
+@scope(.panel-left .party-moves) {
+	border-spacing: 0 var(--margin-0);
+	padding: 0 var(--margin-1);
+	border-collapse: separate;
+	
+	th {
+		border: none;
+	}
+
+	td {
+		border: 2px var(--color-border-1) solid;
+	}
+
+	tr {
+		td:not(:first-child, :last-child) {
+			border-left: none;
+			text-align: right;
+			white-space: nowrap;
+			border-right: 2px var(--color-border-1) dashed;
+		}
+
+		td.name {
+			width: 100%;
+			flex-grow: 1;
+			font-weight: bold;
+			text-align: start;
+			border-right: 2px var(--color-border-1) dashed;
+			white-space: nowrap;
+		}
+
+		td.power {
+			min-width: 3ch;
+		}
+
+		td.pp {
+			text-align: center;
+			border-left: none;
+			white-space: nowrap;
+		}
+	}
+}

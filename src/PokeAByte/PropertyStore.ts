@@ -1,0 +1,70 @@
+import { ChangedField, GameProperty, PokeAClient } from "pokeaclient";
+
+type Callback = () => void;
+type UpdateCallback = (path: string) => void;
+
+/**
+ * This class is courtesy of Poke-A-Byte, https://github.com/PokeAByte/PokeAByte
+ */
+export class PropertyStore {
+	private _connectionSubscriber: ((connected: boolean) => void)[] = [];
+	private _mapperSubscriber: Callback[] = [];
+	private _updateListener: UpdateCallback[] = [];
+	client: PokeAClient;
+
+	/**
+	 * Creates an instance of PropertyStore.
+	 */
+	constructor() {
+		this.client = new PokeAClient({
+			onMapperChange: this.onMapperChange,
+			onPropertiesChanged: this.onPropertiesChange,
+			onConnectionChange: this.onConnectionChange,
+		}, {
+			updateOn: [ChangedField.value]
+		});
+		this.client.connect();
+	}
+
+	addUpdateListener = (callback: UpdateCallback) => {
+		this._updateListener.push(callback);
+	}
+
+	removeUpdateListener = (callback: UpdateCallback) => {
+		this._updateListener = this._updateListener.filter(x => x !== callback);
+	}
+
+	onPropertiesChange = (paths: string[]) => {
+		paths.forEach(path => {
+			this._updateListener.forEach(callback => callback(path));
+		})
+	}
+
+	onMapperChange = () => {
+		this._mapperSubscriber.forEach(callback => callback());
+	}
+
+	onConnectionChange = (connected: boolean) => {
+		this._connectionSubscriber.forEach(callback => callback(connected));
+	}
+
+	subscribeMapper = (onStoreChange: () => void) => {
+		this._mapperSubscriber.push(onStoreChange)
+		return () => {
+			this._mapperSubscriber = this._mapperSubscriber.filter(x => x != onStoreChange);
+		}
+	}
+
+	subscribeConnected = (onConnectedChange: () => void) => {
+		this._connectionSubscriber.push(onConnectedChange);
+		return () => {
+			this._connectionSubscriber = this._connectionSubscriber.filter(x => x != onConnectedChange);
+		}
+	}
+	isConnected = () => this.client.isConnected();
+	getMapper = () => this.client.getMapper();
+	getProperty = <T = any>(path: string) => this.client.getProperty<T>(path);
+	getAllProperties = (): Record<string, GameProperty> => this.client["_properties"];
+}
+
+export const Store = new PropertyStore(); 

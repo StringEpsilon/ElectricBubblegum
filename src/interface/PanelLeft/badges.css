@@ -1,0 +1,22 @@
+@scope(.panel-left .badges) {
+	display: grid;
+	pointer-events: none;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+
+	input[type="checkbox"] {
+		appearance: none;
+		height: 2rem;
+		width: 2rem;
+		display: grid;
+		place-content: center;
+		border: 2px solid var(--color-border-0);
+		background-color: var(--color-surface-1);
+		&:checked::before {
+			content: "";
+			height: 1rem;
+			width: 1rem;
+			background-color: var(--color-green);
+		}
+	}
+}

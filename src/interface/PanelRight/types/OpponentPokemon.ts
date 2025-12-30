@@ -1,0 +1,20 @@
+export type OpponentPokemon = {
+	species: string;
+	level: number;
+	hp: number;
+	hpMax: number;
+	attack: number;
+	defense: number;
+	speed: number;
+	specialAttack: number;
+	specialDefense: number;
+	attackMod: number;
+	defenseMod: number;
+	speedMod: number;
+	specialAttackMod: number;
+	specialDefenseMod: number;
+	move1: string | null;
+	move2: string | null;
+	move3: string | null;
+	move4: string | null;
+};

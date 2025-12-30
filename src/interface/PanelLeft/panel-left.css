@@ -1,0 +1,25 @@
+
+@scope(.panel-left) {
+	gap: var(--margin-1);
+	width: 300px;
+	justify-content: space-between;
+
+	table {
+		width: 100%;
+
+		td {
+			text-align: center;
+			font-family: var(--monospace-font);
+		}
+	}
+
+	@scope (.gbc) {
+		>*:last-child {
+			margin-top: auto;
+		}
+	}
+
+	.game-time {
+		contain: paint;
+	}
+}

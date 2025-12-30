@@ -1,0 +1,28 @@
+@scope(.panel-left .stat-block) {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	gap: var(--margin-0);
+	font-weight: bold;
+
+	.box {
+		display: flex;
+		justify-content: end;
+		gap: var(--margin-0);
+		text-align: end;
+
+		span:not(.modifier) {
+			align-self: flex-end;
+			min-width: 4ch;
+			font-size: small;
+			display: inline-block;
+		}
+
+		.modifier {
+			min-width: 2ch;
+			margin-right: auto;
+			font-size: smaller;
+			text-align: start;
+		}
+	}
+}
