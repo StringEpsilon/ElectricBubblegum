@@ -5,7 +5,7 @@ import { Store } from "../../PokeAByte/PropertyStore";
 
 const gameStateProperties = {
 	"1": ["battle.trainer.name", "battle.type", "battle.enemyPokemon.partyPos", "battle.trainer.totalPokemon"],
-	"2": ["battle.mode", "battle.trainer.class", "battle.textBuffer", "battle.enemyPokemon.partyPos"],
+	"2": ["battle.mode", "battle.trainer.class", "battle.trainer.name", "battle.enemyPokemon.partyPos", "battle.trainer.totalPokemon"],
 	"3": [
 		"battle.trainer.opponentA", "battle.turnInfo.battleOutcome", "battle.trainer.totalPokemon",
 		"battle.enemyPokemon.partyPos",
@@ -32,7 +32,7 @@ export function useBattleInfo(gen: PokemonGeneration) {
 	const updateState = useCallback(() => {
 		switch (gen) {
 			case "1": {
-				const type = (Store.getProperty<"None" | "Wild" | "Trainer">("battle.type")?.value)!;
+				const type = (Store.getProperty<"None" | "Wild" | "Trainer">("battle.mode")?.value)!;
 				const trainerName = (Store.getProperty<string>("battle.trainer.name")?.value)!
 					+ " " + (Store.getProperty<string>("battle.trainer.number")?.value)!;
 				setBattleInfo({
@@ -50,7 +50,7 @@ export function useBattleInfo(gen: PokemonGeneration) {
 			case "2": {
 				const type = (Store.getProperty<string>("battle.mode")?.value)!;
 				const trainerName = (Store.getProperty<string>("battle.trainer.class")?.value)!
-					+ " " + (Store.getProperty<string>("battle.textBuffer")?.value)!;
+					+ " " + (Store.getProperty<string>("battle.trainer.name")?.value)!;
 				setBattleInfo({
 					type: type === "Trainer" ? "Trainer" : "Wild",
 					trainerName: type === "Trainer"

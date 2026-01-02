@@ -263,6 +263,9 @@ a,
 	color: var(--color-green) !important;
 }
 
+.stab {
+	text-decoration: underline;
+}
 
 .mapper-error {
 	margin-top: var(--margin-2);

@@ -2,9 +2,9 @@ import { usePropertyValue } from "../../hooks/useGameProperty";
 import { getPropertyInvariant } from "../../functions/getPropertyInvariant";
 import { useContext } from "preact/hooks";
 import { GameContext } from "../../components/GameContext";
-import typeEffectiveness from "../../data/type-effectiveness";
 import { DexContext } from "../../components/DexContext";
 import { PokemonDataContext } from "../../components/PartyProvider";
+import { getMovePowerModifier, getSTAB } from "../../functions/battle/getMovePowerModifier";
 
 
 export type MoveProps = {
@@ -12,18 +12,17 @@ export type MoveProps = {
 }
 
 export function Move(props: MoveProps) {
-	const { current, isInBattle } = useContext(PokemonDataContext);
+	const { playerCurrent, opponentCurrent } = useContext(PokemonDataContext);
 	const { pokedex, moves } = useContext(DexContext);
 	const { generation } = useContext(GameContext);
-	if (!current) {
+	if (!playerCurrent) {
 		return;
 	}
-	const moveId = current[`move${props.moveIndex}`];
-	const movePP = current[`move${props.moveIndex}pp`];
-	const enemySpecies = usePropertyValue<string>("battle.enemyPokemon.species");
+	const moveId = playerCurrent[`move${props.moveIndex}`];
+	const movePP = playerCurrent[`move${props.moveIndex}pp`];
 
-	const dexData = getPropertyInvariant(pokedex, current?.species ?? "");
-	const enemyDex = getPropertyInvariant(pokedex, enemySpecies ?? "");
+	const dexData = getPropertyInvariant(pokedex, playerCurrent?.species ?? "");
+	const opponentDexEntry = getPropertyInvariant(pokedex, opponentCurrent?.species ?? "");
 	const move = getPropertyInvariant(moves[generation], moveId as string ?? "");
 	if (!move) {
 		return (
@@ -34,32 +33,27 @@ export function Move(props: MoveProps) {
 			</tr>
 		);
 	}
-	let relativePower = move.power ?? 0;
-	if (relativePower != 0 && dexData) {
-		if (dexData.type_1 === move.type || dexData.type_2 === move.type) {
-			relativePower *= 1.5;
-		}
-		if (enemyDex && isInBattle) {
-			var effectiveness = typeEffectiveness.find(x => x.moveType == move.type);
-			if (effectiveness) {
-				relativePower *= effectiveness[enemyDex.type_1];
-				if (enemyDex.type_1 != enemyDex.type_2) {
-					relativePower *= effectiveness[enemyDex.type_2];
-				}
-			}
-		}
-	}
-	
-	const typeCss = (move.move === "Curse"
+	let powerModifier = getMovePowerModifier(dexData, opponentDexEntry, move);
+	let nameStyle = (move.move === "Curse"
 		? "curse"
 		: move.type).toLowerCase();
+	let powerColor = "";
+	if (powerModifier > 1) {
+		powerColor = "text-green";
+	} else if (powerModifier < 1) {
+		powerColor = "text-red";
+	}
+	if (getSTAB(dexData, move) && move.power) {
+		powerModifier *= 1.5;
+		nameStyle += " stab";
+	}
 	return (
 		<tr>
-			<td class={"name color type " + typeCss}>
+			<td class={"name color type " + nameStyle}>
 				{move.move}
 			</td>
-			<td class="power">
-				{relativePower ? Math.floor(relativePower) : "-"}
+			<td class={"power " + powerColor}>
+				{move.power ? Math.floor(move.power * powerModifier) : "-"}
 			</td>
 			<td class="pp">
 				<span class={movePP === 0 ? 'color red' : ""}>

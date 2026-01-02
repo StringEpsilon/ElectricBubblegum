@@ -29,9 +29,9 @@ export function OpponentMon(props: { index: number; currentPokemon: number }) {
 			<div class={"opponent-mon-body"}>
 				<div class="opponent-stat-block">
 					<OpponentStat value={mon.hpMax} color="hp" modifier={0} applyMod={applyMod} />
+					<OpponentStat value={mon.speed} color="speed" modifier={mon.speedMod} applyMod={applyMod} />
 					<OpponentStat value={mon.attack} color="attack" modifier={mon.attackMod} applyMod={applyMod} />
 					<OpponentStat value={mon.defense} color="defense" modifier={mon.defenseMod} applyMod={applyMod} />
-					<OpponentStat value={mon.speed} color="speed" modifier={mon.speedMod} applyMod={applyMod} />
 					{generation === "1"
 						? <>
 							<div class="box color specialAttack">
@@ -50,10 +50,10 @@ export function OpponentMon(props: { index: number; currentPokemon: number }) {
 					}
 				</div>
 				<div class="opponent-moves box">
-					<OpponentMove moveId={mon.move1} />
-					<OpponentMove moveId={mon.move2} />
-					<OpponentMove moveId={mon.move3} />
-					<OpponentMove moveId={mon.move4} />
+					<OpponentMove moveId={mon.move1} attacker={mon.species} />
+					<OpponentMove moveId={mon.move2} attacker={mon.species} />
+					<OpponentMove moveId={mon.move3} attacker={mon.species} />
+					<OpponentMove moveId={mon.move4} attacker={mon.species} />
 				</div>
 			</div>
 		</div>

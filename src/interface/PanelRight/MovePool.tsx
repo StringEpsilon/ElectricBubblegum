@@ -8,7 +8,7 @@ import { DexContext } from "../../components/DexContext";
 export function MovePool() {
 	const { machineMoveMap, moves } = useContext(DexContext);
 	const {generation} = useContext(GameContext);
-	const { dexEntry } = useContext(PokemonDataContext);
+	const { playerDexEntry: dexEntry } = useContext(PokemonDataContext);
 	const pool: PokemonMovePool = mapMovePool(dexEntry, generation, moves, machineMoveMap);
 	const [tab, setTab] = useState<keyof PokemonMovePool>("level");
 	return (

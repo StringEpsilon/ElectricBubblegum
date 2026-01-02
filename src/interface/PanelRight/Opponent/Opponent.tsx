@@ -6,7 +6,7 @@ import { useBattleInfo } from "../useBattleInfo";
 export function Opponent(props: {gen: PokemonGeneration}) {
 	const battleInfo = useBattleInfo(props.gen);
 	const gameState = useGameState(props.gen);
-	const defaultIndex = battleInfo.type === "Trainer" ? -1 : 0;
+	const defaultIndex = battleInfo.type === "Trainer" ? battleInfo.currentPokemon : 0;
 	return (
 		<div class={"opponent"}>
 			<h2>

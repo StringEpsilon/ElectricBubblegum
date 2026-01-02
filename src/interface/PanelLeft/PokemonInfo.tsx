@@ -43,7 +43,7 @@ function calcXP(grothRate: GrowthRate, level: number) {
 
 export function PokemonInfo() {
 	const { generation } = useContext(GameContext);
-	const { dexEntry, current } = useContext(PokemonDataContext);
+	const { playerDexEntry: dexEntry, playerCurrent: current } = useContext(PokemonDataContext);
 
 	let ability: string = "";
 	let critRate: string = "0.00";

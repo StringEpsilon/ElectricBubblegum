@@ -177,10 +177,10 @@ function gen4_opponentActivePokemon(): PropertyMap<OpponentPokemon> {
 		speedMod: "",
 		specialAttackMod: "",
 		specialDefenseMod: "",
-		move1: "battle.opponent.active_pokemon.moves.1.move",
-		move2: "battle.opponent.active_pokemon.moves.2.move",
-		move3: "battle.opponent.active_pokemon.moves.3.move",
-		move4: "battle.opponent.active_pokemon.moves.4.move",
+		move1: "battle.opponent.active_pokemon.moves.0.move",
+		move2: "battle.opponent.active_pokemon.moves.1.move",
+		move3: "battle.opponent.active_pokemon.moves.2.move",
+		move4: "battle.opponent.active_pokemon.moves.3.move",
 	};
 }
 function gen4_opponentPartyPokemon(index: number): PropertyMap<OpponentPokemon> {
