@@ -2,9 +2,10 @@ import { GrowthRate } from "../../data/DataTypes";
 import { StatBlock } from "./StatBlock";
 import { TableRow } from "../../components/TableRow";
 import { BarGraph } from "../../components/BarGraph";
-import { gameContext } from "../../components/GameContext";
-import { playerStatsSignal } from "../../components/PartyProvider";
+import { gameSignal } from "../../components/GameContext";
+import { playerStatsSignal } from "../../components/playerStatsSignal";
 import { playerDexSignal } from "../../signals/playerDexSignal";
+import { gameState } from "../../data/gameState";
 
 function calcXP(grothRate: GrowthRate, level: number) {
 	level++;
@@ -42,7 +43,7 @@ function calcXP(grothRate: GrowthRate, level: number) {
 
 
 export function PokemonInfo() {
-	const { generation } = gameContext.value;
+	const { generation } = gameSignal.value;
 	const dexEntry = playerDexSignal.value;
 	const current = playerStatsSignal.value;
 

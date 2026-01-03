@@ -12,23 +12,23 @@ export type CurrentPokemon = {
 	specialAttack: number;
 	specialDefense: number;
 
-	attackMod: number | undefined;
-	defenseMod: number | undefined;
-	speedMod: number | undefined;
-	specialAttackMod: number | undefined;
-	specialDefenseMod: number | undefined;
+	attackMod: number | null;
+	defenseMod: number | null;
+	speedMod: number | null;
+	specialAttackMod: number | null;
+	specialDefenseMod: number | null;
 
 	statusCondition?: string;
 
 	heldItem: string;
 	ability: boolean | string;
 
-	move1: string;
+	move1: string | null;
 	move1pp: number;
-	move2: string;
+	move2: string | null;
 	move2pp: number;
-	move3: string;
+	move3: string | null;
 	move3pp: number;
-	move4: string;
+	move4: string | null;
 	move4pp: number;
 };

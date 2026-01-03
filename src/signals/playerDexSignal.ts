@@ -1,7 +1,7 @@
 import { computed, effect, signal } from "@preact/signals";
 import { PokemonSpecies } from "../data/DataTypes";
 import { getPropertyInvariant } from "../functions/getPropertyInvariant";
-import { playerStatsSignal } from "../components/PartyProvider";
+import { playerStatsSignal } from "../components/playerStatsSignal";
 import { dexContextSignal } from "../components/DexContext";
 
 export const playerDexSignal = signal<PokemonSpecies | null>(null);

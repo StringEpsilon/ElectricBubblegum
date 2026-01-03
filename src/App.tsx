@@ -1,10 +1,10 @@
 import { Store } from "./PokeAByte/PropertyStore"
-import { PokemonGame, PokemonGeneration } from "./data/DataTypes";
 import { Layout } from "./interface/Layout";
-import { gameContext, GameContext } from "./components/GameContext";
+import { gameSignal } from "./components/GameContext";
 import { Mapper } from "pokeaclient";
-import { useEffect, useSyncExternalStore } from "preact/compat";
+import { useSyncExternalStore } from "preact/compat";
 import { TableRow } from "./components/TableRow";
+import { dexContextSignal } from "./components/DexContext";
 
 const Mappers = {
 	"yellow": "official_gen1_pokemon_yellow_deprecated",
@@ -71,15 +71,7 @@ function App() {
 }
 
 export function Game({ mapper }: { mapper: Mapper }) {
-	const gameData = getGame(mapper.gameName);
-	useEffect(() => {
-		if (gameData) {
-			gameContext.value = {
-				...gameData,
-			}
-		}
-	}, [gameData]);
-	if (!gameData) {
+	if (!gameSignal.value) {
 		return (
 			<div class={"mapper-error"}>
 				<div>
@@ -107,25 +99,14 @@ export function Game({ mapper }: { mapper: Mapper }) {
 			</div>
 		)
 	}
+	if (!dexContextSignal.value) {
+		return null;
+	}
 	return (
-		<GameContext.Provider value={{ ...gameData }}>
-			<Layout gen={gameData.generation} />
-		</GameContext.Provider>
+		<Layout gen={gameSignal.value.generation} />
 	);
 }
 
-function getGame(mapperName: string): { game: PokemonGame, generation: PokemonGeneration } | null {
-	switch (mapperName) {
-		case "Pokemon Yellow":
-			return { game: "Yellow", generation: "1" };
-		case "Pokemon Crystal":
-			return { game: "Crystal", generation: "2" };
-		case "Pokemon Emerald":
-			return { game: "Emerald", generation: "3" };
-		case "Pokemon Platinum":
-			return { game: "Platinum", generation: "4" };
-	}
-	return null;
-}
+
 
 export default App

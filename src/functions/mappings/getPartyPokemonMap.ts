@@ -2,6 +2,7 @@ import { PropertyMap } from "../../hooks/useGameProperty";
 import { CurrentPokemon } from "../../data/CurrentPokemon";
 
 export function getPartyPokemonMap(
+	gen1: boolean,
 	inBattle: boolean,
 	position: number
 ): PropertyMap<CurrentPokemon> {
@@ -12,13 +13,17 @@ export function getPartyPokemonMap(
 		species: `${basePath}.species`,
 		xp:`${basePath}.exp`,
 		level: `${basePath}.level`,
-		hp: `${basePath}.hp`,
-		maxHp: `${basePath}.maxHp`,
+		hp: `${basePath}.stats.hp`,
+		maxHp: `${basePath}.stats.hp_max`,
 		attack: `${basePath}.stats.attack`,
 		defense: `${basePath}.stats.defense`,
 		speed: `${basePath}.stats.speed`,
-		specialAttack: `${basePath}.stats.special_attack`,
-		specialDefense: `${basePath}.stats.special_defense`,
+		specialAttack: (inBattle && gen1)
+			? `${basePath}.stats.special`
+			: `${basePath}.stats.special_attack`,
+		specialDefense: (inBattle && gen1)
+			? `${basePath}.stats.special`
+			: `${basePath}.stats.special_defense`,
 		heldItem: `player.team.${position}.held_item`,
 		ability: `${basePath}.ability`,
 		move1: `${basePath}.moves.0.move`,

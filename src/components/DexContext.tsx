@@ -1,7 +1,7 @@
 import { PokemonGame, PokemonGeneration, PokemonMove, PokemonSpecies } from "../data/DataTypes";
 import { createContext } from "preact";
 import { effect, signal } from "@preact/signals";
-import { gameContext } from "./GameContext";
+import { gameSignal } from "./GameContext";
 
 type PokeDex = Record<string, PokemonSpecies>;
 export type MoveLookup = Record<string, Record<string, PokemonMove>>;
@@ -58,6 +58,6 @@ async function loadAllData(game: PokemonGame) {
 }
 
 effect(() => {
-	var game = gameContext.value.game;
+	var game = gameSignal.value.name;
 	loadAllData(game).then(x => dexContextSignal.value = x) 
 });

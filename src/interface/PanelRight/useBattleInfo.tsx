@@ -1,3 +1,4 @@
+import { subscribePaths } from "../../functions/subscribePaths";
 import { Store } from "../../PokeAByte/PropertyStore";
 import { signal } from "@preact/signals";
 
@@ -41,8 +42,7 @@ const getBattleInfo = (): BattleInfo => {
 	};
 }
 
-Store.addUpdateListener((path) => {
-	if (defaultBattleProperties.includes(path)) {
-		battleInfo.value = getBattleInfo();
-	}
-})
+subscribePaths(
+	defaultBattleProperties, 
+	() => battleInfo.value = getBattleInfo()
+);

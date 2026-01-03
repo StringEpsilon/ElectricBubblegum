@@ -1,19 +1,30 @@
 import { PokemonGame, PokemonGeneration } from "../data/DataTypes";
-import { createContext } from "preact";
 import { signal } from "@preact/signals";
+import { Store } from "../PokeAByte/PropertyStore";
 
 export interface GameContextData {
-	game: PokemonGame,
+	name: PokemonGame,
 	generation: PokemonGeneration,
 }
 
-export const gameContext = signal<GameContextData>({
-	game: "Yellow",
+export const gameSignal = signal<GameContextData>({
+	name: "Yellow",
 	generation: "1",
 });
 
-
-/**
- * Context holding the advanced mode state.
- */
-export const GameContext = createContext<GameContextData>(null!);
+Store.subscribeMapper(() => {
+	switch (Store.getMapper()?.gameName) {
+		case "Pokemon Yellow":
+			gameSignal.value = { name: "Yellow", generation: "1" };
+			break;
+		case "Pokemon Crystal":
+			gameSignal.value = { name: "Crystal", generation: "2" };
+			break;
+		case "Pokemon Emerald":
+			gameSignal.value = { name: "Emerald", generation: "3" };
+			break;
+		case "Pokemon Platinum":
+			gameSignal.value = { name: "Platinum", generation: "4" };
+			break;
+	}	
+})

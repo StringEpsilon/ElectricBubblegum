@@ -1,12 +1,12 @@
 import "./stat-block.css";
 import { CurrentPokemon } from "../../data/CurrentPokemon";
 import { TableRow } from "../../components/TableRow";
-import { gameContext } from "../../components/GameContext";
+import { gameSignal } from "../../components/GameContext";
 
 type Props = { currentMon: CurrentPokemon | null; critRate: string };
 
 export function StatBlock({ currentMon, critRate }: Props) {
-	const { generation } = gameContext.value;
+	const { generation } = gameSignal.value;
 	const applyMod = Number(generation) >= 3;
 	return (
 		<TableRow title="Stats">
@@ -32,7 +32,7 @@ export function StatBlock({ currentMon, critRate }: Props) {
 
 type StatBlockProps = {
 	value: string | number | undefined,
-	mod?: number,
+	mod?: number | null,
 	label: string,
 	color: string,
 	applyMod?: boolean

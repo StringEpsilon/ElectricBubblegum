@@ -1,4 +1,4 @@
-import { usePropertyMap } from "../../hooks/useGameProperty";
+import { propertySignal } from "../../functions/propertySignal";
 import "./badges.css";
 
 type Badges = {
@@ -12,24 +12,26 @@ type Badges = {
 	"8": boolean,
 }
 
-const BadgeMap = {
-	"1": "player.badges.badge1",
-	"2": "player.badges.badge2",
-	"3": "player.badges.badge3",
-	"4": "player.badges.badge4",
-	"5": "player.badges.badge5",
-	"6": "player.badges.badge6",
-	"7": "player.badges.badge7",
-	"8": "player.badges.badge8",
-}
+const badge1 = propertySignal<boolean>("player.badges.badge1");
+const badge2 = propertySignal<boolean>("player.badges.badge2");
+const badge3 = propertySignal<boolean>("player.badges.badge3");
+const badge4 = propertySignal<boolean>("player.badges.badge4");
+const badge5 = propertySignal<boolean>("player.badges.badge5");
+const badge6 = propertySignal<boolean>("player.badges.badge6");
+const badge7 = propertySignal<boolean>("player.badges.badge7");
+const badge8 = propertySignal<boolean>("player.badges.badge8");
 
 export function Badges() {
-	const badges = usePropertyMap<Badges>(BadgeMap);
 	return (
 		<div class="badges">
-			{["1","2","3","4", "5", "6","7","8"].map(x => 
-				<input type="checkbox" checked={badges && badges[x as keyof Badges] || false} />
-			)}
+			<input type="checkbox" checked={badge1} />
+			<input type="checkbox" checked={badge2} />
+			<input type="checkbox" checked={badge3} />
+			<input type="checkbox" checked={badge4} />
+			<input type="checkbox" checked={badge5} />
+			<input type="checkbox" checked={badge6} />
+			<input type="checkbox" checked={badge7} />
+			<input type="checkbox" checked={badge8} />
 		</div>
 	);
 }

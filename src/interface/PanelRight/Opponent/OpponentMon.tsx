@@ -1,7 +1,7 @@
 import { BarGraph } from "../../../components/BarGraph";
 import { usePropertyMap } from "../../../hooks/useGameProperty";
 import { Modifier } from "./Modifier";
-import { gameContext, GameContext } from "../../../components/GameContext";
+import { gameSignal } from "../../../components/GameContext";
 import { getOpponentPokemonMap } from "../functions/getOpponentPokemonMap";
 import { OpponentPokemon } from "../types/OpponentPokemon";
 import { OpponentMove } from "./OpponentMove";
@@ -12,7 +12,7 @@ import { useComputed } from "@preact/signals";
 
 export function OpponentMon(props: { index: number; currentPokemon: number }) {
 	const { pokedex } = dexContextSignal.value;
-	const { generation } = gameContext.value;
+	const { generation } = gameSignal.value;
 	const teamSize = useComputed( () => battleInfo.value.teamSize);
 	const { index, currentPokemon } = props;
 	const mon = usePropertyMap<OpponentPokemon>(getOpponentPokemonMap(generation, index, index === currentPokemon));

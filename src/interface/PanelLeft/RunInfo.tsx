@@ -1,10 +1,10 @@
 import { GameTime } from "./GameTime";
 import { Badges } from "./Badges";
-import { gameContext } from "../../components/GameContext";
+import { gameSignal } from "../../components/GameContext";
 import { TableRow } from "../../components/TableRow";
 
 export function RunInfo() {
-	const { game } = gameContext.value;
+	const { name: game } = gameSignal.value;
 	return (
 		<div>
 			<h1 class="tab">Run</h1>
