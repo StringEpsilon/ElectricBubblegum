@@ -3,43 +3,40 @@ import { PartyPaths } from "./PartyPaths";
 export function gen1_getPartyPokemonPaths(inBattle: boolean, position: number): PartyPaths {
 	if (inBattle) {
 		return {
-			species: "battle.yourPokemon.species",
+			species: "battle.active_pokemon.species",
 			xp: `player.team.${position}.expPoints`,
-			level: "battle.yourPokemon.level",
-			hp: "battle.yourPokemon.hp",
-			maxHp: "battle.yourPokemon.maxHp",
-			attack: "battle.yourPokemon.attack",
-			defense: "battle.yourPokemon.defense",
-			speed: "battle.yourPokemon.speed",
-			specialAttack: "battle.yourPokemon.special",
-			specialDefense: "battle.yourPokemon.special",
-
-			attackMod: "battle.yourPokemon.modStageAttack",
-			defenseMod: "battle.yourPokemon.modStageDefense",
-			speedMod: "battle.yourPokemon.modStageSpeed",
-			specialAttackMod: "battle.yourPokemon.modStageSpecial",
-			specialDefenseMod: "battle.yourPokemon.modStageSpecial",
-
-			statusCondition: "battle.yourPokemon.battleStatusCondition",
-
-			heldItem: "",
-			ability: "",
+			level: "battle.active_pokemon.level",
+			hp: "battle.active_pokemon.hp",
+			maxHp: "battle.active_pokemon.maxHp",
+			attack: "player.active_pokemon.stats.attack",
+			defense: "player.active_pokemon.stats.defense",
+			speed: "player.active_pokemon.stats.speed",
+			specialAttack: "player.active_pokemon.stats.special_attack",
+			specialDefense: "player.active_pokemon.stats.special_defense",
+			attackMod: "player.active_pokemon.modifiers.attack",
+			defenseMod: "player.active_pokemon.modifiers.defense",
+			speedMod: "player.active_pokemon.modifiers.speed",
+			specialAttackMod: "player.active_pokemon.modifiers.special_attack",
+			specialDefenseMod: "player.active_pokemon.modifiers.special_defense",
+			statusCondition: "player.active_pokemon.status_condition",
+			heldItem: `player.team.${position}.held_item`,
+			ability: ``,
 			moves: [
 				{
-					name: "battle.yourPokemon.move1",
-					pp: "battle.yourPokemon.move1pp"
+					name: "battle.player.active_pokemon.moves.0.move",
+					pp: "battle.player.active_pokemon.moves.0.pp"
 				},
 				{
-					name: "battle.yourPokemon.move2",
-					pp: "battle.yourPokemon.move2pp"
+					name: "battle.player.active_pokemon.moves.1.move",
+					pp: "battle.player.active_pokemon.moves.1.pp"
 				},
 				{
-					name: "battle.yourPokemon.move3",
-					pp: "battle.yourPokemon.move3pp"
+					name: "battle.player.active_pokemon.moves.2.move",
+					pp: "battle.player.active_pokemon.moves.2.pp"
 				},
 				{
-					name: "battle.yourPokemon.move4",
-					pp: "battle.yourPokemon.move4pp"
+					name: "battle.player.active_pokemon.moves.3.move",
+					pp: "battle.player.active_pokemon.moves.3.pp"
 				},
 			]
 		};
@@ -48,41 +45,39 @@ export function gen1_getPartyPokemonPaths(inBattle: boolean, position: number): 
 		species: `player.team.${position}.species`,
 		xp: `player.team.${position}.expPoints`,
 		level: `player.team.${position}.level`,
-		hp: `player.team.${position}.hp`,
-		maxHp: `player.team.${position}.maxHp`,
-		attack: `player.team.${position}.attack`,
-		defense: `player.team.${position}.defense`,
-		speed: `player.team.${position}.speed`,
-		specialAttack: `player.team.${position}.special`,
-		specialDefense: `player.team.${position}.special`,
-
+		hp: `player.team.${position}.stats.hp`,
+		maxHp: `player.team.${position}.stats.hp_max`,
+		attack: `player.team.${position}.stats.attack`,
+		defense: `player.team.${position}.stats.defense`,
+		speed: `player.team.${position}.stats.speed`,
+		specialAttack: `player.team.${position}.stats.special_attack`,
+		specialDefense: `player.team.${position}.stats.special_attack`,
+		statusCondition: `player.team.${position}.statusCondition`,
 		attackMod: "",
 		defenseMod: "",
 		speedMod: "",
 		specialAttackMod: "",
 		specialDefenseMod: "",
-
-		statusCondition: `player.team.${position}.statusCondition`,
-
-		heldItem: "",
-		ability: "",
+		heldItem: ``,
+		ability: '',
 		moves: [
 			{
-				name: `player.team.${position}.move1`,
-				pp: `player.team.${position}.move1pp`
+				name: `player.team.${position}.moves.0.move`,
+				pp: `player.team.${position}.moves.0.pp`
 			},
 			{
-				name: `player.team.${position}.move2`,
-				pp: `player.team.${position}.move2pp`
+				name: `player.team.${position}.moves.1.move`,
+				pp: `player.team.${position}.moves.1.pp`
 			},
 			{
-				name: `player.team.${position}.move3`,
-				pp: `player.team.${position}.move3pp`
+				name: `player.team.${position}.moves.2.move`,
+				pp: `player.team.${position}.moves.2.pp`
 			},
 			{
-				name: `player.team.${position}.move4`,
-				pp: `player.team.${position}.move4pp`
+				name: `player.team.${position}.moves.3.move`,
+				pp: `player.team.${position}.moves.3.pp`
 			},
 		]
 	};
 }
+

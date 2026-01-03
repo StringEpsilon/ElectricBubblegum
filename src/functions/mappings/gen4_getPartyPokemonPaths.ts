@@ -4,7 +4,7 @@ export function gen4_getPartyPokemonPaths(inBattle: boolean, position: number): 
 	if (inBattle) {
 		return {
 			species: "battle.player.active_pokemon.species",
-			xp: `player.team.${position}.expPoints`,
+			xp: `player.team.${position}.exp`,
 			level: "battle.player.active_pokemon.level",
 			hp: "battle.player.active_pokemon.stats.hp",
 
@@ -27,15 +27,15 @@ export function gen4_getPartyPokemonPaths(inBattle: boolean, position: number): 
 			moves: [
 				{
 					name: "battle.player.active_pokemon.moves.0.move",
-					pp: "battle.player.active_pokemon.moves.3.pp"
+					pp: "battle.player.active_pokemon.moves.0.pp"
 				},
 				{
 					name: "battle.player.active_pokemon.moves.1.move",
-					pp: "battle.player.active_pokemon.moves.3.pp"
+					pp: "battle.player.active_pokemon.moves.1.pp"
 				},
 				{
 					name: "battle.player.active_pokemon.moves.2.move",
-					pp: "battle.player.active_pokemon.moves.3.pp"
+					pp: "battle.player.active_pokemon.moves.2.pp"
 				},
 				{
 					name: "battle.player.active_pokemon.moves.3.move",

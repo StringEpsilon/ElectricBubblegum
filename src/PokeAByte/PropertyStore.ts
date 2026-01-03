@@ -18,7 +18,7 @@ export class PropertyStore {
 	constructor() {
 		this.client = new PokeAClient({
 			onMapperChange: this.onMapperChange,
-			onPropertiesChanged: this.onPropertiesChange,
+			onPropertyChange: this.onPropertiesChange,
 			onConnectionChange: this.onConnectionChange,
 		}, {
 			updateOn: [ChangedField.value]
@@ -28,20 +28,25 @@ export class PropertyStore {
 
 	addUpdateListener = (callback: UpdateCallback) => {
 		this._updateListener.push(callback);
+		console.log(this._updateListener.length);
 	}
 
 	removeUpdateListener = (callback: UpdateCallback) => {
 		this._updateListener = this._updateListener.filter(x => x !== callback);
 	}
 
-	onPropertiesChange = (paths: string[]) => {
-		paths.forEach(path => {
-			this._updateListener.forEach(callback => callback(path));
-		})
+	onPropertiesChange = (path: string) => {
+		this._updateListener.forEach(callback => callback(path));
 	}
 
 	onMapperChange = () => {
 		this._mapperSubscriber.forEach(callback => callback());
+		console.log(this.getMapper()?.id);
+		window.requestAnimationFrame(() => {
+
+			Object.keys(this.getAllProperties()).forEach(this.onPropertiesChange);
+		});
+
 	}
 
 	onConnectionChange = (connected: boolean) => {

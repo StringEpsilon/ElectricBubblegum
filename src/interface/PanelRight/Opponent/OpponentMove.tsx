@@ -1,23 +1,20 @@
-import { useContext } from "preact/hooks";
-import { DexContext } from "../../../components/DexContext";
-import { GameContext } from "../../../components/GameContext";
+import { dexContextSignal } from "../../../components/DexContext";
+import { gameContext } from "../../../components/GameContext";
 import { getPropertyInvariant } from "../../../functions/getPropertyInvariant";
 import { getMovePowerModifier, getSTAB } from "../../../functions/battle/getMovePowerModifier";
-import { PokemonDataContext } from "../../../components/PartyProvider";
-
+import { playerDexSignal } from "../../../components/PartyProvider";
 
 export function OpponentMove(props: { moveId: string | null; attacker: string }) {
-	const { generation } = useContext(GameContext);
-	const { pokedex, moves } = useContext(DexContext);
-	const { playerCurrent: current } = useContext(PokemonDataContext);
-	const playerDex = getPropertyInvariant(pokedex, current?.species ?? "");
-	const opponentDex = getPropertyInvariant(pokedex, props.attacker);
+	const { generation } = gameContext.value;
+	const { pokedex, moves } = dexContextSignal.value;
+	const playerDex = playerDexSignal.value;
+	const opponentDexEntry = getPropertyInvariant(pokedex, props.attacker ?? "");
 	const move = getPropertyInvariant(moves[generation], props.moveId as string ?? "");
 	if (!move) {
 		return <span>&nbsp;</span>;
 	}
 
-	let powerModifier = getMovePowerModifier(opponentDex, playerDex, move);
+	let powerModifier = getMovePowerModifier(opponentDexEntry, playerDex, move);
 	let typeCss = (move.move === "Curse"
 		? "curse"
 		: move.type).toLowerCase();
@@ -27,7 +24,7 @@ export function OpponentMove(props: { moveId: string | null; attacker: string })
 	} else if (powerModifier < 1) {
 		powerColor = "text-red";
 	}
-	if (getSTAB(opponentDex, move) && move.power) {
+	if (getSTAB(opponentDexEntry, move) && move.power) {
 		powerModifier *= 1.5;
 		typeCss += " stab";
 	}

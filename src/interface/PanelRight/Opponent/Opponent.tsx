@@ -1,23 +1,20 @@
-import { PokemonGeneration } from "../../../data/DataTypes";
-import { useGameState } from "../../../hooks/useIsInBattle";
 import { OpponentTeam } from "./OpponentTeam";
-import { useBattleInfo } from "../useBattleInfo";
+import { GameState } from "../../../data/GameState";
 
-export function Opponent(props: {gen: PokemonGeneration}) {
-	const battleInfo = useBattleInfo(props.gen);
-	const gameState = useGameState(props.gen);
-	const defaultIndex = battleInfo.type === "Trainer" ? battleInfo.currentPokemon : 0;
+type Props = {
+	teamIndex: number, 
+	name: string | null,
+	gameState: GameState
+}
+
+export function Opponent(props: Props) {
+	const defaultIndex = -1;
 	return (
 		<div class={"opponent"}>
 			<h2>
-				Battle: {battleInfo.type === "Trainer" ? battleInfo.trainerName : "Wild pokemon"}
+				Battle: {props.name}
 			</h2>
-
-			<OpponentTeam 
-				teamSize={battleInfo.teamSize} 
-				trainer={battleInfo.type === "Trainer"} 
-				currentPokemon={gameState === "Battle" ? battleInfo.currentPokemon : defaultIndex}
-			/>
+			<OpponentTeam currentPokemon={props.teamIndex}/>
 		</div>
 	);
 }

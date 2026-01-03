@@ -1,28 +1,31 @@
-import { usePropertyValue } from "../../hooks/useGameProperty";
 import { getPropertyInvariant } from "../../functions/getPropertyInvariant";
-import { useContext } from "preact/hooks";
-import { GameContext } from "../../components/GameContext";
-import { DexContext } from "../../components/DexContext";
-import { PokemonDataContext } from "../../components/PartyProvider";
+import { gameContext } from "../../components/GameContext";
+import { dexContextSignal } from "../../components/DexContext";
+import { opponentDexSignal, playerDexSignal, playerStatsSignal } from "../../components/PartyProvider";
 import { getMovePowerModifier, getSTAB } from "../../functions/battle/getMovePowerModifier";
-
+import { useComputed } from "@preact/signals";
 
 export type MoveProps = {
 	moveIndex: 1 | 2 | 3 | 4,
 }
 
 export function Move(props: MoveProps) {
-	const { playerCurrent, opponentCurrent } = useContext(PokemonDataContext);
-	const { pokedex, moves } = useContext(DexContext);
-	const { generation } = useContext(GameContext);
-	if (!playerCurrent) {
-		return;
+	const dexData = playerDexSignal.value;
+	const currentSpecies = useComputed(() => playerStatsSignal.value?.species);
+	const opponentDexEntry = opponentDexSignal.value
+	const { pokedex, moves } = dexContextSignal.value!;
+	const generation = useComputed(() => gameContext.value.generation).value;
+	const movePP = useComputed(() => playerStatsSignal.value 
+		? playerStatsSignal.value[`move${props.moveIndex}pp`]
+		: ""
+	).value;
+	const moveId = useComputed(() => playerStatsSignal.value 
+		? playerStatsSignal.value[`move${props.moveIndex}`]
+		: ""
+	).value;
+	if (!currentSpecies || !pokedex || !moves || !moveId) {
+		return null;
 	}
-	const moveId = playerCurrent[`move${props.moveIndex}`];
-	const movePP = playerCurrent[`move${props.moveIndex}pp`];
-
-	const dexData = getPropertyInvariant(pokedex, playerCurrent?.species ?? "");
-	const opponentDexEntry = getPropertyInvariant(pokedex, opponentCurrent?.species ?? "");
 	const move = getPropertyInvariant(moves[generation], moveId as string ?? "");
 	if (!move) {
 		return (

@@ -2,9 +2,8 @@ import { GrowthRate } from "../../data/DataTypes";
 import { StatBlock } from "./StatBlock";
 import { TableRow } from "../../components/TableRow";
 import { BarGraph } from "../../components/BarGraph";
-import { GameContext } from "../../components/GameContext";
-import { useContext } from "preact/hooks";
-import { PokemonDataContext } from "../../components/PartyProvider";
+import { gameContext } from "../../components/GameContext";
+import { playerDexSignal, playerStatsSignal } from "../../components/PartyProvider";
 
 function calcXP(grothRate: GrowthRate, level: number) {
 	level++;
@@ -42,8 +41,9 @@ function calcXP(grothRate: GrowthRate, level: number) {
 
 
 export function PokemonInfo() {
-	const { generation } = useContext(GameContext);
-	const { playerDexEntry: dexEntry, playerCurrent: current } = useContext(PokemonDataContext);
+	const { generation } = gameContext.value;
+	const dexEntry = playerDexSignal.value;
+	const current = playerStatsSignal.value;
 
 	let ability: string = "";
 	let critRate: string = "0.00";

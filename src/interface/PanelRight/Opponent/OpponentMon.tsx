@@ -1,19 +1,24 @@
-import { useContext, useState } from "preact/hooks";
 import { BarGraph } from "../../../components/BarGraph";
 import { usePropertyMap } from "../../../hooks/useGameProperty";
 import { Modifier } from "./Modifier";
-import { GameContext } from "../../../components/GameContext";
+import { gameContext, GameContext } from "../../../components/GameContext";
 import { getOpponentPokemonMap } from "../functions/getOpponentPokemonMap";
 import { OpponentPokemon } from "../types/OpponentPokemon";
 import { OpponentMove } from "./OpponentMove";
+import { getPropertyInvariant } from "../../../functions/getPropertyInvariant";
+import { dexContextSignal } from "../../../components/DexContext";
+import { battleInfo } from "../useBattleInfo";
+import { useComputed } from "@preact/signals";
 
 export function OpponentMon(props: { index: number; currentPokemon: number }) {
-	const { generation } = useContext(GameContext);
+	const { pokedex } = dexContextSignal.value;
+	const { generation } = gameContext.value;
+	const teamSize = useComputed( () => battleInfo.value.teamSize);
 	const { index, currentPokemon } = props;
-	const [propertyMap] = useState(() => getOpponentPokemonMap(generation, index, index === currentPokemon))
-	const mon = usePropertyMap<OpponentPokemon>(propertyMap);
-
-	if (mon === null) {
+	const mon = usePropertyMap<OpponentPokemon>(getOpponentPokemonMap(generation, index, index === currentPokemon));
+	const dexEntry = getPropertyInvariant(pokedex, mon?.species ?? "");
+	
+	if (mon === null || index > teamSize.value-1) {
 		return null;
 	}
 	const applyMod = Number(generation) >= 3;
@@ -21,6 +26,7 @@ export function OpponentMon(props: { index: number; currentPokemon: number }) {
 	if (currentPokemon === props.index) {
 		monClass += " current";
 	}
+	let critRate = (((dexEntry?.base_stats.speed??0) / 2) / 256 * 100).toFixed(0);
 	return (
 		<div class={"opponent-mon " + monClass}>
 			<div>
@@ -40,7 +46,7 @@ export function OpponentMon(props: { index: number; currentPokemon: number }) {
 							</div>
 							<div class="box color crit">
 								<Modifier value={0} isActive={false} />
-								<span>TODO %</span>
+								<span>~{critRate}%</span>
 							</div>
 						</>
 						: <>

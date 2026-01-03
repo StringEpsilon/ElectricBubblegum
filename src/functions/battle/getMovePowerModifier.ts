@@ -1,7 +1,7 @@
 import { PokemonMove, PokemonSpecies } from "../../data/DataTypes";
 import typeEffectiveness from "../../data/type-effectiveness";
 
-export function getSTAB(attacker: PokemonSpecies|null, move: PokemonMove) {
+export function getSTAB(attacker: PokemonSpecies|null|undefined, move: PokemonMove) {
 	if (!attacker) {
 		return false;
 	}
@@ -9,8 +9,8 @@ export function getSTAB(attacker: PokemonSpecies|null, move: PokemonMove) {
 }
 
 export function getMovePowerModifier(
-	attacker: PokemonSpecies|null, 
-	defender: PokemonSpecies|null, 
+	attacker: PokemonSpecies|null|undefined, 
+	defender: PokemonSpecies|null|undefined, 
 	move: PokemonMove
 ) {
 	if (!attacker || !defender || !move.power) {

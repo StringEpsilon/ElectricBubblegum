@@ -1,12 +1,10 @@
 import { Store } from "./PokeAByte/PropertyStore"
 import { PokemonGame, PokemonGeneration } from "./data/DataTypes";
 import { Layout } from "./interface/Layout";
-import { GameContext } from "./components/GameContext";
+import { gameContext, GameContext } from "./components/GameContext";
 import { Mapper } from "pokeaclient";
-import { useSyncExternalStore } from "preact/compat";
+import { useEffect, useSyncExternalStore } from "preact/compat";
 import { TableRow } from "./components/TableRow";
-import { DexContextProdiver } from "./components/DexContext";
-import { PokemonDataProvider } from "./components/PartyProvider";
 
 const Mappers = {
 	"yellow": "official_gen1_pokemon_yellow_deprecated",
@@ -74,6 +72,13 @@ function App() {
 
 export function Game({ mapper }: { mapper: Mapper }) {
 	const gameData = getGame(mapper.gameName);
+	useEffect(() => {
+		if (gameData) {
+			gameContext.value = {
+				...gameData,
+			}
+		}
+	}, [gameData]);
 	if (!gameData) {
 		return (
 			<div class={"mapper-error"}>
@@ -92,10 +97,10 @@ export function Game({ mapper }: { mapper: Mapper }) {
 							</tr>
 						</thead>
 						<tbody>
-							<TableRow title="Yellow">Pokemon Yellow - Deprecated Mapper</TableRow>
-							<TableRow title="Crystal">Pokemon Crystal - Deprecated Mapper</TableRow>
-							<TableRow title="Emerald">Pokemon Emerald - Deprecated Mapper</TableRow>
-							<TableRow title="Platinum">STP Pokemon Platinum</TableRow>
+							<TableRow title="Yellow">Pokemon Yellow</TableRow>
+							<TableRow title="Crystal">Pokemon Crystal</TableRow>
+							<TableRow title="Emerald">Pokemon Emerald</TableRow>
+							<TableRow title="Platinum">Pokemon Platinum</TableRow>
 						</tbody>
 					</table>
 				</div>
@@ -103,25 +108,21 @@ export function Game({ mapper }: { mapper: Mapper }) {
 		)
 	}
 	return (
-		<GameContext.Provider value={{ ...gameData, mapper }}>
-			<DexContextProdiver game={gameData.game}>
-				<PokemonDataProvider {...gameData} >
-					<Layout gen={gameData.generation} />
-				</PokemonDataProvider>
-			</DexContextProdiver>
+		<GameContext.Provider value={{ ...gameData }}>
+			<Layout gen={gameData.generation} />
 		</GameContext.Provider>
 	);
 }
 
 function getGame(mapperName: string): { game: PokemonGame, generation: PokemonGeneration } | null {
 	switch (mapperName) {
-		case "Pokemon Yellow - Deprecated Mapper":
+		case "Pokemon Yellow":
 			return { game: "Yellow", generation: "1" };
-		case "Pokemon Crystal - Deprecated Mapper":
+		case "Pokemon Crystal":
 			return { game: "Crystal", generation: "2" };
-		case "Pokemon Emerald - Deprecated Mapper":
+		case "Pokemon Emerald":
 			return { game: "Emerald", generation: "3" };
-		case "STP Pokemon Platinum":
+		case "Pokemon Platinum":
 			return { game: "Platinum", generation: "4" };
 	}
 	return null;

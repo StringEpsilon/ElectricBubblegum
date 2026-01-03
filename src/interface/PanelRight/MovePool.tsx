@@ -1,14 +1,14 @@
-import { useContext, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 import { PokemonMovePool } from "../../data/DataTypes";
-import { GameContext } from "../../components/GameContext";
+import { gameContext } from "../../components/GameContext";
 import { mapMovePool } from "../../functions/mapMovePool";
-import { PokemonDataContext } from "../../components/PartyProvider";
-import { DexContext } from "../../components/DexContext";
+import { playerDexSignal } from "../../components/PartyProvider";
+import { dexContextSignal } from "../../components/DexContext";
 
 export function MovePool() {
-	const { machineMoveMap, moves } = useContext(DexContext);
-	const {generation} = useContext(GameContext);
-	const { playerDexEntry: dexEntry } = useContext(PokemonDataContext);
+	const { machineMoveMap, moves } = dexContextSignal.value;
+	const {generation} = gameContext.value;
+	const dexEntry = playerDexSignal.value;
 	const pool: PokemonMovePool = mapMovePool(dexEntry, generation, moves, machineMoveMap);
 	const [tab, setTab] = useState<keyof PokemonMovePool>("level");
 	return (

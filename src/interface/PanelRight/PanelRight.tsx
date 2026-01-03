@@ -1,18 +1,19 @@
-import { useContext } from "preact/hooks";
 import { MovePool } from "./MovePool";
 import "./panel-right.css";
 import { Opponent } from "./Opponent/Opponent";
-import { GameContext } from "../../components/GameContext";
-import { useGameState } from "../../hooks/useIsInBattle";
+import { battleInfo, } from "./useBattleInfo";
+import { gameState } from "../../data/gameState";
 
 export function PanelRight() {
-	const { generation } = useContext(GameContext)
-	const gameState = useGameState(generation);
+	const { type, trainerName, currentPokemon} = battleInfo.value;
+	
+	var inTrainerBattle = (gameState.value === "Battle" || gameState.value === "From Battle" || gameState.value === "To Battle")
+		&& type === "Trainer";
 	return (
 		<div class="panel-right">
-			{(gameState === "Battle" || gameState === "To Battle")
-				? <Opponent gen={generation} />
-				: <MovePool />
+			{(inTrainerBattle)
+				? <Opponent gameState={gameState.value}  name={trainerName} teamIndex={currentPokemon}/>
+				: <MovePool  />
 			}
 		</div>
 	)

@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { usePropertyMap } from "../../hooks/useGameProperty";
-import { GameContext } from "../../components/GameContext";
+import { gameContext } from "../../components/GameContext";
 import { PokemonGeneration } from "../../data/DataTypes";
 
 type TimeMap = {
@@ -23,7 +23,7 @@ function padNumber(number: Number) {
 }
 
 export function GameTime() {
-	const { generation } = useContext(GameContext);
+	const { generation } = gameContext.value;
 	const [map, setMap] = useState(() => createTimeMap(generation));
 	useEffect(() => setMap(createTimeMap(generation)), [generation]);
 	const time = usePropertyMap<TimeMap>(map);

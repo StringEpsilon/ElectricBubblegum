@@ -3,11 +3,11 @@ import { PanelLeft } from "./PanelLeft/PanelLeft";
 import { PanelMiddle } from "./PanelMiddle/PanelMiddle";
 import { PanelRight } from "./PanelRight/PanelRight";
 
-export function Layout({ gen }: { gen: PokemonGeneration }) {
+export function Layout({ gen: generation }: { gen: PokemonGeneration }) {
 	let layout: string = "gbc";
-	if (gen == "3") {
+	if (generation == "3") {
 		layout = "gba"
-	} else if (gen == "4") {
+	} else if (generation == "4") {
 		layout = "nds"
 	}
 	return (

@@ -1,13 +1,12 @@
 import "./stat-block.css";
-import { useContext } from "preact/hooks";
 import { CurrentPokemon } from "../../data/CurrentPokemon";
-import { GameContext } from "../../components/GameContext";
 import { TableRow } from "../../components/TableRow";
+import { gameContext } from "../../components/GameContext";
 
 type Props = { currentMon: CurrentPokemon | null; critRate: string };
 
 export function StatBlock({ currentMon, critRate }: Props) {
-	const { generation } = useContext(GameContext);
+	const { generation } = gameContext.value;
 	const applyMod = Number(generation) >= 3;
 	return (
 		<TableRow title="Stats">
@@ -31,35 +30,37 @@ export function StatBlock({ currentMon, critRate }: Props) {
 	);
 }
 
-type StatBlockProps = { 
-	value: string | number | undefined, 
-	mod?: number, 
-	label: string, 
+type StatBlockProps = {
+	value: string | number | undefined,
+	mod?: number,
+	label: string,
 	color: string,
 	applyMod?: boolean
 }
 
 function StatBox(props: StatBlockProps) {
-	let value = Number(props.value);
+	let value: Number | string | undefined;
 	if (props.applyMod && props.mod) {
 		if (props.mod > 0) {
-			value = value * (2+Number(props.mod))/2
+			value = Number(props.value) * (2 + Number(props.mod)) / 2
 		}
 		if (props.mod < 0) {
-			value = Math.floor(value * (2/(2+(Math.abs(props.mod)))));
+			value = Math.floor(Number(props.value) * (2 / (2 + (Math.abs(props.mod)))));
 		}
+	} else {
+		value = props.value;
 	}
 	return (
 		<div class={`box color ${props.color}`}>
-			{(props.mod ?? 0)>= 1
-				?<span class={"modifier text-green"}>+{props.mod}</span>
+			{(props.mod ?? 0) >= 1
+				? <span class={"modifier text-green"}>+{props.mod}</span>
 				: null
 			}
-			{(props.mod ?? 0)<= -1
+			{(props.mod ?? 0) <= -1
 				? <span class={"modifier text-red"}>{props.mod}</span>
 				: null
 			}
-			{(props.mod ?? 0)== 0 &&
+			{(props.mod ?? 0) == 0 &&
 				<span class={"modifier"}></span>
 			}
 			<span>{value}</span>
