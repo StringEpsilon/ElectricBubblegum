@@ -2,7 +2,7 @@ import { dexContextSignal } from "../../../components/DexContext";
 import { gameContext } from "../../../components/GameContext";
 import { getPropertyInvariant } from "../../../functions/getPropertyInvariant";
 import { getMovePowerModifier, getSTAB } from "../../../functions/battle/getMovePowerModifier";
-import { playerDexSignal } from "../../../components/PartyProvider";
+import { playerDexSignal } from "../../../signals/playerDexSignal";
 
 export function OpponentMove(props: { moveId: string | null; attacker: string }) {
 	const { generation } = gameContext.value;

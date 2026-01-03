@@ -1,4 +1,3 @@
-import { useEffect, useState } from "preact/hooks";
 import { PokemonGame, PokemonGeneration, PokemonMove, PokemonSpecies } from "../data/DataTypes";
 import { createContext } from "preact";
 import { effect, signal } from "@preact/signals";

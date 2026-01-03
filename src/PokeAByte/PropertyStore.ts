@@ -28,7 +28,6 @@ export class PropertyStore {
 
 	addUpdateListener = (callback: UpdateCallback) => {
 		this._updateListener.push(callback);
-		console.log(this._updateListener.length);
 	}
 
 	removeUpdateListener = (callback: UpdateCallback) => {
@@ -41,9 +40,7 @@ export class PropertyStore {
 
 	onMapperChange = () => {
 		this._mapperSubscriber.forEach(callback => callback());
-		console.log(this.getMapper()?.id);
 		window.requestAnimationFrame(() => {
-
 			Object.keys(this.getAllProperties()).forEach(this.onPropertiesChange);
 		});
 

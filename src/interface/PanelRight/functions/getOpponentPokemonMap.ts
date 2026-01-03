@@ -9,27 +9,19 @@ export function getOpponentPokemonMap(
 ): PropertyMap<OpponentPokemon> {
 	switch (generation) {
 		case "1":
-			if (!isActive) {
-				return gen1_2_opponentPartyPokemon(index);
-			}
-			return gen1_2_opponentActivePokemon(index);
 		case "2":
-			if (!isActive) {
-				return gen1_2_opponentPartyPokemon(index);
-			}
-			return gen1_2_opponentActivePokemon(index);
+		case "4":
+			return isActive
+				? gen1_2_4opponentActivePokemon(index)
+				: gen1_2_4opponentPartyPokemon(index);
 		case "3":
 			if (!isActive) {
 				return gen3_opponentPartyPokemon(index);
 			}
 			return gen3_opponentActivePokemon();
-		case "4":
-			return isActive
-				? gen4_opponentActivePokemon()
-				: gen4_opponentPartyPokemon(index);
 	}
 }
-function gen1_2_opponentPartyPokemon(index: number): PropertyMap<OpponentPokemon> {
+function gen1_2_4opponentPartyPokemon(index: number): PropertyMap<OpponentPokemon> {
 	return {
 		species: `battle.opponent.team.${index}.species`,
 		level: `battle.opponent.team.${index}.level`,
@@ -51,7 +43,7 @@ function gen1_2_opponentPartyPokemon(index: number): PropertyMap<OpponentPokemon
 		move4: `battle.opponent.team.${index}.moves.3.move`,
 	};
 }
-function gen1_2_opponentActivePokemon(index: number): PropertyMap<OpponentPokemon> {
+function gen1_2_4opponentActivePokemon(index: number): PropertyMap<OpponentPokemon> {
 	return {
 		species: `battle.opponent.active_pokemon.species`,
 		level: `battle.opponent.team.${index}.level`,
@@ -60,13 +52,13 @@ function gen1_2_opponentActivePokemon(index: number): PropertyMap<OpponentPokemo
 		attack: `battle.opponent.active_pokemon.stats.attack`,
 		defense: `battle.opponent.active_pokemon.stats.defense`,
 		speed: `battle.opponent.active_pokemon.stats.speed`,
-		specialAttack: `battle.opponent.active_pokemon.stats.special`,
-		specialDefense: `battle.opponent.active_pokemon.stats.special`,
+		specialAttack: `battle.opponent.active_pokemon.stats.special_attack`,
+		specialDefense: `battle.opponent.active_pokemon.stats.special_defense`,
 		attackMod: "battle.opponent.active_pokemon.modifiers.attack",
 		defenseMod: "battle.opponent.active_pokemon.modifiers.defense",
 		speedMod: "battle.opponent.active_pokemon.modifiers.speed",
-		specialAttackMod: "battle.opponent.active_pokemon.modifiers.special",
-		specialDefenseMod: "battle.opponent.active_pokemon.modifiers.special",
+		specialAttackMod: "battle.opponent.active_pokemon.modifiers.special_attack",
+		specialDefenseMod: "battle.opponent.active_pokemon.modifiers.special_defense",
 		move1: `battle.opponent.active_pokemon.moves.0.move`,
 		move2: `battle.opponent.active_pokemon.moves.1.move`,
 		move3: `battle.opponent.active_pokemon.moves.2.move`,
@@ -116,49 +108,5 @@ function gen3_opponentActivePokemon(): PropertyMap<OpponentPokemon> {
 		move2: "battle.enemyPokemon.move2",
 		move3: "battle.enemyPokemon.move3",
 		move4: "battle.enemyPokemon.move4",
-	};
-}
-function gen4_opponentActivePokemon(): PropertyMap<OpponentPokemon> {
-	return {
-		species: `battle.opponent.active_pokemon.species`,
-		level: `battle.opponent.active_pokemon.level`,
-		hp: `battle.opponent.active_pokemon.stats.hp`,
-		hpMax: `battle.opponent.active_pokemon.stats.hp_max`,
-		attack: `battle.opponent.active_pokemon.stats.attack`,
-		defense: `battle.opponent.active_pokemon.stats.defense`,
-		speed: `battle.opponent.active_pokemon.stats.speed`,
-		specialAttack: `battle.opponent.active_pokemon.stats.special_attack`,
-		specialDefense: `battle.opponent.active_pokemon.stats.special_defense`,
-		attackMod: "",
-		defenseMod: "",
-		speedMod: "",
-		specialAttackMod: "",
-		specialDefenseMod: "",
-		move1: "battle.opponent.active_pokemon.moves.0.move",
-		move2: "battle.opponent.active_pokemon.moves.1.move",
-		move3: "battle.opponent.active_pokemon.moves.2.move",
-		move4: "battle.opponent.active_pokemon.moves.3.move",
-	};
-}
-function gen4_opponentPartyPokemon(index: number): PropertyMap<OpponentPokemon> {
-	return {
-		species: `battle.opponent.team.${index}.species`,
-		level: `battle.opponent.team.${index}.level`,
-		hp: `battle.opponent.team.${index}.stats.hp`,
-		hpMax: `battle.opponent.team.${index}.stats.hp_max`,
-		attack: `battle.opponent.team.${index}.stats.attack`,
-		defense: `battle.opponent.team.${index}.stats.defense`,
-		speed: `battle.opponent.team.${index}.stats.speed`,
-		specialAttack: `battle.opponent.team.${index}.stats.special_attack`,
-		specialDefense: `battle.opponent.team.${index}.stats.special_defense`,
-		attackMod: "battle.opponent.active_pokemon.modifiers.attack",
-		defenseMod: "battle.opponent.active_pokemon.modifiers.defense",
-		speedMod: "battle.opponent.active_pokemon.modifiers.speed",
-		specialAttackMod: "battle.opponent.active_pokemon.modifiers.special_attack",
-		specialDefenseMod: "battle.opponent.active_pokemon.modifiers.special_defense",
-		move1: `battle.opponent.team.${index}..moves.1.move`,
-		move2: `battle.opponent.team.${index}..moves.2.move`,
-		move3: `battle.opponent.team.${index}..moves.3.move`,
-		move4: `battle.opponent.team.${index}..moves.4.move`,
 	};
 }

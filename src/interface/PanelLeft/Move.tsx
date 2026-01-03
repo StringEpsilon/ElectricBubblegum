@@ -1,9 +1,11 @@
 import { getPropertyInvariant } from "../../functions/getPropertyInvariant";
 import { gameContext } from "../../components/GameContext";
 import { dexContextSignal } from "../../components/DexContext";
-import { opponentDexSignal, playerDexSignal, playerStatsSignal } from "../../components/PartyProvider";
+import { playerStatsSignal } from "../../components/PartyProvider";
 import { getMovePowerModifier, getSTAB } from "../../functions/battle/getMovePowerModifier";
 import { useComputed } from "@preact/signals";
+import { playerDexSignal } from "../../signals/playerDexSignal";
+import { opponentDexSignal } from "../../signals/opponentDexSignal";
 
 export type MoveProps = {
 	moveIndex: 1 | 2 | 3 | 4,
@@ -13,7 +15,7 @@ export function Move(props: MoveProps) {
 	const dexData = playerDexSignal.value;
 	const currentSpecies = useComputed(() => playerStatsSignal.value?.species);
 	const opponentDexEntry = opponentDexSignal.value
-	const { pokedex, moves } = dexContextSignal.value!;
+	const { moves } = dexContextSignal.value!;
 	const generation = useComputed(() => gameContext.value.generation).value;
 	const movePP = useComputed(() => playerStatsSignal.value 
 		? playerStatsSignal.value[`move${props.moveIndex}pp`]
@@ -23,7 +25,7 @@ export function Move(props: MoveProps) {
 		? playerStatsSignal.value[`move${props.moveIndex}`]
 		: ""
 	).value;
-	if (!currentSpecies || !pokedex || !moves || !moveId) {
+	if (!currentSpecies) {
 		return null;
 	}
 	const move = getPropertyInvariant(moves[generation], moveId as string ?? "");

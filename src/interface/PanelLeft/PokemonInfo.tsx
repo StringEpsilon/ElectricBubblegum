@@ -3,7 +3,8 @@ import { StatBlock } from "./StatBlock";
 import { TableRow } from "../../components/TableRow";
 import { BarGraph } from "../../components/BarGraph";
 import { gameContext } from "../../components/GameContext";
-import { playerDexSignal, playerStatsSignal } from "../../components/PartyProvider";
+import { playerStatsSignal } from "../../components/PartyProvider";
+import { playerDexSignal } from "../../signals/playerDexSignal";
 
 function calcXP(grothRate: GrowthRate, level: number) {
 	level++;

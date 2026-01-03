@@ -2,8 +2,8 @@ import { useState } from "preact/hooks";
 import { PokemonMovePool } from "../../data/DataTypes";
 import { gameContext } from "../../components/GameContext";
 import { mapMovePool } from "../../functions/mapMovePool";
-import { playerDexSignal } from "../../components/PartyProvider";
 import { dexContextSignal } from "../../components/DexContext";
+import { playerDexSignal } from "../../signals/playerDexSignal";
 
 export function MovePool() {
 	const { machineMoveMap, moves } = dexContextSignal.value;
