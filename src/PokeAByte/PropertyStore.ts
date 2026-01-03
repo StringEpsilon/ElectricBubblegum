@@ -43,7 +43,6 @@ export class PropertyStore {
 		window.requestAnimationFrame(() => {
 			Object.keys(this.getAllProperties()).forEach(this.onPropertiesChange);
 		});
-
 	}
 
 	onConnectionChange = (connected: boolean) => {

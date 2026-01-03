@@ -1,7 +1,8 @@
-import { useEffect, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 import { usePropertyMap } from "../../hooks/useGameProperty";
 import { gameContext } from "../../components/GameContext";
 import { PokemonGeneration } from "../../data/DataTypes";
+import { useLiveSignal } from "@preact/signals/utils";
 
 type TimeMap = {
 	hours: number
@@ -10,7 +11,7 @@ type TimeMap = {
 }
 
 function createTimeMap(generation: PokemonGeneration) {
-	const basePath = Number(generation) <= 3 ? "gameTime" : "game_time";
+	const basePath = Number(generation) <= 2 ? "gameTime" : "game_time";
 	return {
 		hours: `${basePath}.hours`,
 		minutes: `${basePath}.minutes`,
@@ -24,8 +25,7 @@ function padNumber(number: Number) {
 
 export function GameTime() {
 	const { generation } = gameContext.value;
-	const [map, setMap] = useState(() => createTimeMap(generation));
-	useEffect(() => setMap(createTimeMap(generation)), [generation]);
+	const [map] = useState(createTimeMap(generation));
 	const time = usePropertyMap<TimeMap>(map);
 	if (time == null) {
 		return "--:--:--"
