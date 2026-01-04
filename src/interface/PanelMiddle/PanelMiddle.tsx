@@ -8,13 +8,22 @@ export function PanelMiddle() {
 	return (
 		<div class="panel-middle">
 			<div class="middle-tabs">
-				<button class="tab" onClick={() => setPlayArea("video")}>
+				<button 
+					class={"tab " + (playArea == "video" ? "active" : "")} 
+					onClick={() => setPlayArea("video")}
+				>
 					Game
 				</button>
-				<button class="tab" onClick={() => setPlayArea("options")}>
+				{/* <button 
+					class={"tab " + (playArea == "options" ? "active" : "")} 
+					onClick={() => setPlayArea("options")}
+				>
 					Options
-				</button>
-				<button class="tab" onClick={() => setPlayArea("license")}>
+				</button> */}
+				<button 
+					class={"tab " + (playArea == "license" ? "active" : "")} 
+					onClick={() => setPlayArea("license")}
+				>
 					License(s)
 				</button>
 			</div>

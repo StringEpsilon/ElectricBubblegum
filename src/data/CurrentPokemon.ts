@@ -1,6 +1,7 @@
 
 export type CurrentPokemon = {
 	species: string;
+	nickname: string;
 	xp: number;
 	level: number;
 	hp: number;

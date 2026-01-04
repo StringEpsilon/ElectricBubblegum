@@ -73,7 +73,7 @@ type StatProps = {
 	color: string
 }
 
-function OpponentStat(props: StatProps) {
+export function OpponentStat(props: StatProps) {
 	let value = props.value;
 	if (props.applyMod) {
 		if (props.modifier < 0) {

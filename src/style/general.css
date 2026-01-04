@@ -242,6 +242,14 @@ h1.tab {
 		clip-path: polygon(0 12px, 12px 0, 100% 0, 100% 100%, 0 100%);
 		background-color: var(--button-background);
 	}
+
+	&.active {
+		color: var(--color-blue);
+		border-bottom: none;
+	}
+	&:not(.active) {
+		border-bottom: 2px solid var(--color-border-0);
+	}
 }
 
 .tab-bar {
@@ -283,10 +291,26 @@ a,
 .bar-graph {
 	border: 1px solid var(--color-border-1);
 	background-color: black;
+	display: grid;
+	place-items: left;
+	/* display: contents; */
 
+	.bar-label {
+		/* display: inline; */
+		grid-row: 1;
+		grid-column: 1;
+		/* top:0; */
+		color: white
+	}
 	&>div {
+		display: inline-block;
+		grid-row: 1;
+		grid-column: 1;
+		/* position: absolute; */
 		background-color: var(--color-green);
-		margin-top: -21px;
+	}
+	&.blue > div {	
+		background-color: var(--color-blue);
 	}
 }
 

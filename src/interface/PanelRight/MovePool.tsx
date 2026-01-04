@@ -4,9 +4,11 @@ import { gameSignal } from "../../components/GameContext";
 import { mapMovePool } from "../../functions/mapMovePool";
 import { dexContextSignal } from "../../components/DexContext";
 import { playerDexSignal } from "../../signals/playerDexSignal";
+import { playerStatsSignal } from "../../components/playerStatsSignal";
 
 export function MovePool() {
 	const { machineMoveMap, moves } = dexContextSignal.value;
+	const level = playerStatsSignal.value?.level ?? 1;
 	const {generation} = gameSignal.value;
 	const dexEntry = playerDexSignal.value;
 	const pool: PokemonMovePool = mapMovePool(dexEntry, generation, moves, machineMoveMap);
@@ -14,10 +16,10 @@ export function MovePool() {
 	return (
 		<>
 			<span class="tab-bar">
-				<button class={`tab tab-sideways ${tab === "level" ? "active" : ""}`} onClick={() => setTab("level")}>Level</button>
-				<button class={`tab tab-sideways ${tab === "tmhm" ? "active" : ""}`} onClick={() => setTab("tmhm")}>Machine</button>
+				<button class={`tab tab-sideways ${tab === "level" ? "active" : "inactive"}`} onClick={() => setTab("level")}>Level</button>
+				<button class={`tab tab-sideways ${tab === "tmhm" ? "active" : "inactive"}`} onClick={() => setTab("tmhm")}>Machine</button>
 				{generation !== "1" && 
-					<button class={`tab tab-sideways ${tab === "tutor" ? "active" : ""}`} onClick={() => setTab("tutor")}>Tutor</button>
+					<button class={`tab tab-sideways ${tab === "tutor" ? "active" : "inactive"}`} onClick={() => setTab("tutor")}>Tutor</button>
 				}
 			</span>
 			<div class="move-pool">
@@ -39,8 +41,11 @@ export function MovePool() {
 							const type = move.move === "Curse"
 								? "???"
 								: move.type;
+							const moveClass = (tab === "level" && level > Number(move.source))
+								? "unavailable"
+								: ""
 							return (
-								<tr key={`${tab}-${move.source}-${move.move}`} >
+								<tr key={`${tab}-${move.source}-${move.move}`} class={moveClass} >
 									<td>{move.source}</td>
 									<td>{move.move}</td>
 									<td class={"color type "+ typeCss}>{type}</td>

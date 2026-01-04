@@ -5,9 +5,14 @@ import { BarGraph } from "../../components/BarGraph";
 import { gameSignal } from "../../components/GameContext";
 import { playerStatsSignal } from "../../components/playerStatsSignal";
 import { playerDexSignal } from "../../signals/playerDexSignal";
-import { gameState } from "../../data/gameState";
+import { PartyMoves } from "./PartyMoves";
+import { useState } from "preact/hooks";
+import { propertySignal } from "../../functions/propertySignal";
+import { getSTAB } from "../../functions/battle/getMovePowerModifier";
+import { For } from "@preact/signals/utils";
+import { PlayerParty } from "./PlayerParty";
 
-function calcXP(grothRate: GrowthRate, level: number) {
+export function calcXP(grothRate: GrowthRate, level: number) {
 	level++;
 	switch (grothRate) {
 		case "Fast":
@@ -41,12 +46,36 @@ function calcXP(grothRate: GrowthRate, level: number) {
 	return 0;
 };
 
-
 export function PokemonInfo() {
+	const [tab, setTab] = useState<"active" | "party">("active");
+	return (
+		<div>
+			<div class={"tab-bar"}>
+				<button
+					onClick={() => setTab("active")}
+					class={"tab " + (tab === "active" ? "active" : "")}
+				>
+					Active Pokemon
+				</button>
+				<button
+					onClick={() => setTab("party")}
+					class={"tab " + (tab === "party" ? "active" : "")}
+				>
+					Party
+				</button>
+			</div>
+			{tab === "active"
+				? <ActivePokemon></ActivePokemon>
+				: <PlayerParty></PlayerParty>
+			}
+		</div>
+	);
+}
+
+function ActivePokemon() {
 	const { generation } = gameSignal.value;
 	const dexEntry = playerDexSignal.value;
 	const current = playerStatsSignal.value;
-
 	let ability: string = "";
 	let critRate: string = "0.00";
 	let hpPercent: string = "0.00";
@@ -65,9 +94,9 @@ export function PokemonInfo() {
 			expPercent = "100";
 		}
 	}
+
 	return (
-		<div>
-			<h1 class="tab">Pokemon</h1>
+		<>
 			<table class="striped">
 				<tbody>
 					<TableRow title="Species">{dexEntry?.species ?? "[No Pokemon]"}</TableRow>
@@ -75,7 +104,7 @@ export function PokemonInfo() {
 						<BarGraph label={current?.hp} percent={hpPercent} />
 					</TableRow>
 					<TableRow title="Level">
-						<BarGraph label={current?.level} percent={expPercent} />
+						<BarGraph label={current?.level} percent={expPercent} color="blue" />
 					</TableRow>
 					<StatBlock currentMon={current} critRate={critRate} />
 					{generation != "1" &&
@@ -89,7 +118,8 @@ export function PokemonInfo() {
 					</TableRow>
 				</tbody>
 			</table>
-		</div>
-	);
-
+			<PartyMoves></PartyMoves>
+		</>
+	)
 }
+

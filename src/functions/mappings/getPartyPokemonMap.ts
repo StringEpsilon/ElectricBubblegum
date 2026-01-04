@@ -11,6 +11,7 @@ export function getPartyPokemonMap(
 		: `player.team.${position}`;
 	return {
 		species: `${basePath}.species`,
+		nickname: `${basePath}.nickname`,
 		xp:`${basePath}.exp`,
 		level: `${basePath}.level`,
 		hp: `${basePath}.stats.hp`,
@@ -51,7 +52,7 @@ export function getPartyPokemonMap(
 			: "",
 		statusCondition: inBattle 
 			? `${basePath}.status_condition` 
-			: "",
+			: `${basePath}.status_condition`,
 	};
 }
 

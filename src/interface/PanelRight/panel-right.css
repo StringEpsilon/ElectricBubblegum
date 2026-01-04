@@ -17,6 +17,10 @@
 			overflow: scroll;
 			scrollbar-width: thin;
 		}
+
+		.unavailable {
+			opacity: 0.5;
+		}
 	}
 
 	table {
@@ -117,12 +121,6 @@
 	}
 	.bar-graph {
 		text-align: center;
-		height: 21px;
-		&>div {
-			background-color: var(--color-green);
-			margin-top: -19px;
-			/* transition: width 0.25s ease-out; */
-		}
 	}
 
 	.opponent-moves {

@@ -53,7 +53,7 @@ export function Move(props: MoveProps) {
 		nameStyle += " stab";
 	}
 	return (
-		<tr>
+		<tr title={move.type + " / " + move.category + " - " + move.description}>
 			<td class={"name color type " + nameStyle}>
 				{move.move}
 			</td>

@@ -1,8 +1,8 @@
-import { effect, signal } from "@preact/signals";
+import { signal } from "@preact/signals";
 import { Store } from "../PokeAByte/PropertyStore";
 import { subscribePaths } from "./subscribePaths";
 
-function defaultTransformer<T,T2=T>(x: T|undefined) { return  x };
+function defaultTransformer<T,T2=T>(x: T|undefined): T2 { return x as T2 };
 
 export function propertySignal<T, T2 = T>(path: string, transformer?: (x: T|undefined) => T2 ) {
 	if (!transformer) {
