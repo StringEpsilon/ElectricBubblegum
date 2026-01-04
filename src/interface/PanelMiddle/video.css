@@ -13,6 +13,7 @@
 		aspect-ratio: var(--aspect-ratio);
 		object-position: bottom;
 		object-fit: cover;
+		image-rendering: optimizeSpeed;
 	} 
 }
 
