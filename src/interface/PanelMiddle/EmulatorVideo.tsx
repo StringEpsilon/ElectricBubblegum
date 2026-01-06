@@ -1,22 +1,22 @@
 import "./video.css";
-import { useContext } from "preact/hooks";
-import { VideoContext } from "../../components/VideoContext";
+import { endCapture, requestCapture,  videoSignal } from "../../components/VideoContext";
 
 export function EmulatorVideo() {
-	const context = useContext(VideoContext);
-	if (context.source === null) {
+	const source = videoSignal.value;
+	if (source === null) {
 		return (
 			<div class="video-container">
-				<button type="button" onClick={() => context.requestSource()}>Capture emulator window</button>
+				<button type="button" onClick={requestCapture}>Capture emulator window</button>
 			</div>
 		);
 	}
 	return (
 		<div class="video-container">
+			<button type="button" id="end-capture" onClick={endCapture}>X</button>
 			<video 
-				onClick={()=> context.closeSource()}	
+				
 				width="100%" 
-				srcObject={context.source} 
+				srcObject={source} 
 				onLoadedMetadata={(e) => e.currentTarget?.play()}
 			/>
 		</div>

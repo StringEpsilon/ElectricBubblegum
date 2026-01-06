@@ -1,5 +1,4 @@
 import { PokemonGame, PokemonGeneration, PokemonMove, PokemonSpecies } from "../data/DataTypes";
-import { createContext } from "preact";
 import { effect, signal } from "@preact/signals";
 import { gameSignal } from "./GameContext";
 
@@ -12,10 +11,6 @@ export interface PokedexContextData {
 	moves: MoveLookup
 }
 
-/**
- * Context holding the advanced mode state.
- */
-export const dataSignal = createContext<PokedexContextData>(null!);
 export const dexContextSignal = signal<PokedexContextData>(null!);
 
 const loadDex = async(game: PokemonGame) => {

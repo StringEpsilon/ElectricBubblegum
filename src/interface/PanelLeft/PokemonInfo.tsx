@@ -6,11 +6,10 @@ import { gameSignal } from "../../components/GameContext";
 import { playerStatsSignal } from "../../components/playerStatsSignal";
 import { playerDexSignal } from "../../signals/playerDexSignal";
 import { PartyMoves } from "./PartyMoves";
-import { useState } from "preact/hooks";
-import { propertySignal } from "../../functions/propertySignal";
-import { getSTAB } from "../../functions/battle/getMovePowerModifier";
-import { For } from "@preact/signals/utils";
 import { PlayerParty } from "./PlayerParty";
+import { signal } from "@preact/signals";
+
+const panelSignal = signal<"active" | "party">("active");
 
 export function calcXP(grothRate: GrowthRate, level: number) {
 	level++;
@@ -47,24 +46,24 @@ export function calcXP(grothRate: GrowthRate, level: number) {
 };
 
 export function PokemonInfo() {
-	const [tab, setTab] = useState<"active" | "party">("active");
+	
 	return (
 		<div>
 			<div class={"tab-bar"}>
 				<button
-					onClick={() => setTab("active")}
-					class={"tab " + (tab === "active" ? "active" : "")}
+					onClick={() => panelSignal.value = "active"}
+					class={"tab " + (panelSignal.value === "active" ? "active" : "")}
 				>
 					Active Pokemon
 				</button>
 				<button
-					onClick={() => setTab("party")}
-					class={"tab " + (tab === "party" ? "active" : "")}
+					onClick={() => panelSignal.value = "party"}
+					class={"tab " + (panelSignal.value === "party" ? "active" : "")}
 				>
 					Party
 				</button>
 			</div>
-			{tab === "active"
+			{panelSignal.value === "active"
 				? <ActivePokemon></ActivePokemon>
 				: <PlayerParty></PlayerParty>
 			}

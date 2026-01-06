@@ -15,6 +15,15 @@
 		object-fit: cover;
 		image-rendering: optimizeSpeed;
 	} 
+
+	#end-capture {
+		visibility: hidden;
+		position: absolute;
+		right: var(--margin-2);
+	}
+	&:hover #end-capture {
+		visibility: visible;
+	}
 }
 
 @scope (.nds) { 
@@ -22,6 +31,12 @@
 		video {
 			aspect-ratio: 2 / 3;
 			height: revert-layer;
+		}
+	}
+	:scope.bottom {
+		video {
+
+			transform: translate(0, -50%);
 		}
 	}
 }
