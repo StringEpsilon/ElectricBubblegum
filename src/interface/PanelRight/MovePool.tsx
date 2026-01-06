@@ -1,4 +1,3 @@
-import { useState } from "preact/hooks";
 import { PokemonMovePool } from "../../data/DataTypes";
 import { gameSignal } from "../../components/GameContext";
 import { mapMovePool } from "../../functions/mapMovePool";
@@ -29,6 +28,10 @@ window.addEventListener("onGamepadButton", (e: any) => {
 	}
 });
 
+function tabClass(value: boolean) {
+	return "tab tab-sideways " + (value ? "active" : "inactive");
+}
+
 export function MovePool() {
 	const { machineMoveMap, moves } = dexContextSignal.value;
 	const level = playerStatsSignal.value?.level ?? 1;
@@ -39,24 +42,24 @@ export function MovePool() {
 	return (
 		<>
 			<span class="tab-bar">
-				<button 
-					class={`tab tab-sideways ${tab === "level" ? "active" : "inactive"}`} 
+				<button
+					class={tabClass(tab === "level")}
 					onClick={() => movepoolSignal.value = "level"}
 				>
-						Level
+					Level
 				</button>
-				<button 
-					class={`tab tab-sideways ${tab === "tmhm" ? "active" : "inactive"}`} 
+				<button
+					class={tabClass(tab === "tmhm")}
 					onClick={() => movepoolSignal.value = "tmhm"}
 				>
-						Machine
+					Machine
 				</button>
 				{generation !== "1" &&
-					<button 
-						class={`tab tab-sideways ${tab === "tutor" ? "active" : "inactive"}`} 
+					<button
+						class={tabClass(tab === "tutor")}
 						onClick={() => movepoolSignal.value = "tutor"}
 					>
-							Tutor
+						Tutor
 					</button>
 				}
 			</span>
@@ -79,7 +82,7 @@ export function MovePool() {
 							const type = move.move === "Curse"
 								? "???"
 								: move.type;
-							const moveClass = (tab === "level" && level > Number(move.source))
+							const moveClass = (tab === "level" && level >= Number(move.source))
 								? "unavailable"
 								: ""
 							return (
