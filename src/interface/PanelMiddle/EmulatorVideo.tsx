@@ -14,7 +14,6 @@ export function EmulatorVideo() {
 		<div class="video-container">
 			<button type="button" id="end-capture" onClick={endCapture}>X</button>
 			<video 
-				
 				width="100%" 
 				srcObject={source} 
 				onLoadedMetadata={(e) => e.currentTarget?.play()}

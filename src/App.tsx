@@ -6,12 +6,12 @@ import { useSyncExternalStore } from "preact/compat";
 import { TableRow } from "./components/TableRow";
 import { dexContextSignal } from "./components/DexContext";
 
-const Mappers = {
-	"yellow": "official_gen1_pokemon_yellow_deprecated",
-	"crystal": "official_gen2_pokemon_crystal_deprecated",
-	"emerald": "official_gen3_pokemon_emerald_deprecated_ne",
-	"platinum": "official_gen4_pokemon_platinum_ne",
-}
+const Mappers = [
+	["Yellow", "official_gen1_pokemon_yellow"],
+	["Crystal", "official_gen2_pokemon_crystal"],
+	["Emerald", "official_gen3_pokemon_emerald"],
+	["Platinum", "official_gen4_pokemon_platinum"],
+]
 
 function App() {
 	const mapper = useSyncExternalStore(Store.subscribeMapper, Store.getMapper);
@@ -48,18 +48,13 @@ function App() {
 								Make sure you use a compatible emulator with the correct settings. <br />
 								If you have the mappers installed and your emulator is running, use one of these buttons:
 							</p>
-							<button type={"button"} onClick={() => Store.client.changeMapper(Mappers.yellow)}>
-								Yellow
-							</button> &nbsp;
-							<button type={"button"} onClick={() => Store.client.changeMapper(Mappers.crystal)}>
-								Crystal
-							</button> &nbsp;
-							<button type={"button"} onClick={() => Store.client.changeMapper(Mappers.emerald)}>
-								Emerald
-							</button> &nbsp;
-							<button type={"button"} onClick={() => Store.client.changeMapper(Mappers.platinum)}>
-								Platinum
-							</button>
+							{Mappers.map(array => 
+								<>
+									<button type="button" onClick={() => Store.client.changeMapper(array[1])}>
+										{array[0]}
+									</button> &nbsp;
+								</>
+							)}
 						</div>
 					</div>
 				)
