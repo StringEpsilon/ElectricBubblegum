@@ -181,6 +181,11 @@ h1 {
 	display: inline-block;
 }
 
+label {
+	margin-right: var(--margin-0);
+}
+
+input[type="textbox"],
 button {
 	--button-background: var(--button-background-default);
 	margin-top: var(--margin-0);

@@ -14,7 +14,7 @@ export function mapPropertyObject<T>(map: PropertyMap<T>) {
 
 export type PropertyMap<T> = Record<keyof T, string>;
 
-function shallowCompare<T extends object>(a: T, b: T) {
+export function shallowCompare<T extends object>(a: T, b: T) {
 	if (a === b) {
 		return true;
 	}

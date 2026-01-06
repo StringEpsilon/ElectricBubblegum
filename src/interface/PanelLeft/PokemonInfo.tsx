@@ -8,8 +8,18 @@ import { playerDexSignal } from "../../signals/playerDexSignal";
 import { PartyMoves } from "./PartyMoves";
 import { PlayerParty } from "./PlayerParty";
 import { signal } from "@preact/signals";
+import { Shortcut, shortcutsSignal } from "../../signals/shortCutsSignal";
 
-const panelSignal = signal<"active" | "party">("active");
+
+export const panelSignal = signal<"active" | "party">("active");
+
+window.addEventListener("onGamepadButton", (e: any) => {
+	const shortcuts = shortcutsSignal.peek()
+	if (e.detail.button === shortcuts[Shortcut.pokemonInfo]) {
+		console.log("Pressed assigned button");
+		panelSignal.value = panelSignal.peek() === "active" ? "party" : "active";
+	}
+});
 
 export function calcXP(grothRate: GrowthRate, level: number) {
 	level++;
