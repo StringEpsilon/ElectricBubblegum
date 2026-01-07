@@ -10,11 +10,12 @@ import { dexContextSignal } from "../../../components/DexContext";
 import { battleInfo } from "../useBattleInfo";
 import { useComputed } from "@preact/signals";
 
-export function OpponentMon(props: { index: number; currentPokemon: number }) {
+export function OpponentMon(props: { index: number; }) {
+	const currentPokemon = useComputed(() => battleInfo.value.currentPokemon).value;
 	const { pokedex } = dexContextSignal.value;
 	const { generation } = gameSignal.value;
 	const teamSize = useComputed( () => battleInfo.value.teamSize);
-	const { index, currentPokemon } = props;
+	const { index } = props;
 	const mon = usePropertyMap<OpponentPokemon>(getOpponentPokemonMap(generation, index, index === currentPokemon));
 	const dexEntry = getPropertyInvariant(pokedex, mon?.species ?? "");
 	

@@ -38,27 +38,33 @@ export function Move(props: MoveProps) {
 			</tr>
 		);
 	}
-	let powerModifier = getMovePowerModifier(dexData, opponentDexEntry, move);
+	let effectiveness = getMovePowerModifier(dexData, opponentDexEntry, move);
 	let nameStyle = (move.move === "Curse"
 		? "curse"
 		: move.type).toLowerCase();
 	let powerColor = "";
-	if (powerModifier > 1) {
+	if (effectiveness.modifier > 1) {
 		powerColor = "text-green";
-	} else if (powerModifier < 1) {
+	} else if (effectiveness.modifier < 1) {
 		powerColor = "text-red";
 	}
-	if (getSTAB(dexData, move) && move.power) {
-		powerModifier *= 1.5;
+	if (effectiveness.isSTAB) {
 		nameStyle += " stab";
 	}
+	let power: string|null = "-";
+	if (effectiveness.power !== null && !effectiveness.isFixed) {
+		power = effectiveness.power.toString();
+	} else if (effectiveness.isFixed) {
+		power = "fix"
+	}
+	
 	return (
 		<tr title={move.type + " / " + move.category + " - " + move.description}>
 			<td class={"name color type " + nameStyle}>
 				{move.move}
 			</td>
 			<td class={"power " + powerColor}>
-				{move.power ? Math.floor(move.power * powerModifier) : "-"}
+				{power}
 			</td>
 			<td class="pp">
 				<span class={movePP === 0 ? 'color red' : ""}>

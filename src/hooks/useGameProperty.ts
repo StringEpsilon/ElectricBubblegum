@@ -42,6 +42,7 @@ export function usePropertyMap<T>(map: PropertyMap<T>): T | null {
 			if (dispose.current) {
 				dispose.current();
 			}
+			onPropertyChange();
 			dispose.current = subscribePaths(entries, onPropertyChange);
 		}
 	}, [map]);

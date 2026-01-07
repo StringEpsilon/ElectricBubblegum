@@ -6,7 +6,7 @@ import { getPropertyInvariant } from "../../functions/getPropertyInvariant";
 import { getPartyPokemonMap } from "../../functions/mappings/getPartyPokemonMap";
 import { usePropertyMap } from "../../hooks/useGameProperty";
 import { PartyStat } from "./PartyStat";
-import { calcXP } from "./PokemonInfo";
+import { calcXP, getLevelPercentage } from "./PokemonInfo";
 
 export function NormalizeSpecies(species: string) {
 	switch (species) {
@@ -41,12 +41,7 @@ export function PlayerPokemon(props: { index: number; }) {
 	let expPercent = "0";
 	let critRate = "0";
 	if (dexEntry) {
-		const xpNextLevel = Math.floor(calcXP(dexEntry.growth_rate, mon.level));
-		if (mon.level < 100) {
-			expPercent = ((mon.xp) / (xpNextLevel) * 100).toFixed(2);
-		} else {
-			expPercent = "100";
-		}
+		expPercent = getLevelPercentage(mon.xp, mon.level,dexEntry?.growth_rate);
 		critRate = ((dexEntry.base_stats.speed / 2) / 256 * 100).toFixed(1);
 	}
 	let status = mon.hp + " HP";

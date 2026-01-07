@@ -16,7 +16,7 @@ export const panelSignal = signal<"active" | "party">("active");
 window.addEventListener("onGamepadButton", (e: any) => {
 	const shortcuts = shortcutsSignal.peek()
 	if (e.detail.button === shortcuts[Shortcut.pokemonInfo]) {
-		console.log("Pressed assigned button");
+		console.log("Pressed assigned button " + e.detail.button);
 		panelSignal.value = panelSignal.peek() === "active" ? "party" : "active";
 	}
 });
@@ -81,6 +81,18 @@ export function PokemonInfo() {
 	);
 }
 
+export function getLevelPercentage(currentXP: number, currentLevel: number, growth_rate: GrowthRate) {
+	let percent = "0";
+	const xpNextLevel = Math.floor(calcXP(growth_rate, currentLevel));
+	const xpCurrentLevel = Math.floor(calcXP(growth_rate, currentLevel-1));
+	if (currentLevel < 100) {
+		percent = ((currentXP-xpCurrentLevel) / (xpNextLevel-xpCurrentLevel) * 100).toFixed(2);
+	} else {
+		percent = "100";
+	}
+	return percent;
+}
+
 function ActivePokemon() {
 	const { generation } = gameSignal.value;
 	const dexEntry = playerDexSignal.value;
@@ -88,20 +100,15 @@ function ActivePokemon() {
 	let ability: string = "";
 	let critRate: string = "0.00";
 	let hpPercent: string = "0.00";
-	let expPercent = "0";
+	let expPercent: string = "0.00";
 	if (dexEntry && current) {
+		expPercent = getLevelPercentage(current.xp, current.level,dexEntry?.growth_rate);
 		ability = typeof current.ability === "string"
 			? current.ability
 			: dexEntry.abilities[current.ability ? 1 : 0];
 
 		critRate = ((dexEntry.base_stats.speed / 2) / 256 * 100).toFixed(2);
 		hpPercent = (current.hp / current.maxHp * 100).toFixed(2);
-		const xpNextLevel = Math.floor(calcXP(dexEntry.growth_rate, current.level));
-		if (current.level < 100) {
-			expPercent = ((current.xp) / (xpNextLevel) * 100).toFixed(2);
-		} else {
-			expPercent = "100";
-		}
 	}
 
 	return (

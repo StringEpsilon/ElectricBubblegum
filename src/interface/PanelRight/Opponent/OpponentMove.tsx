@@ -14,27 +14,30 @@ export function OpponentMove(props: { moveId: string | null; attacker: string })
 		return <span>&nbsp;</span>;
 	}
 
-	let powerModifier = getMovePowerModifier(opponentDexEntry, playerDex, move);
-	let typeCss = (move.move === "Curse"
+	let effectiveness = getMovePowerModifier(opponentDexEntry,playerDex, move);
+	let nameStyle = (move.move === "Curse"
 		? "curse"
 		: move.type).toLowerCase();
 	let powerColor = "";
-	if (powerModifier > 1) {
+	if (effectiveness.modifier > 1) {
 		powerColor = "text-green";
-	} else if (powerModifier < 1) {
+	} else if (effectiveness.modifier < 1) {
 		powerColor = "text-red";
 	}
-	if (getSTAB(opponentDexEntry, move) && move.power) {
-		powerModifier *= 1.5;
-		typeCss += " stab";
+	if (effectiveness.isSTAB) {
+		nameStyle += " stab";
+	}
+	let power: string|null = "-";
+	if (effectiveness.power !== null && !effectiveness.isFixed) {
+		power = effectiveness.power.toString();
+	} else if (effectiveness.isFixed) {
+		power = "fix"
 	}
 	return (
 		<div >
-			<span class={"name color type " + typeCss}>{move.move}</span>
+			<span class={"name color type " + nameStyle}>{move.move}</span>
 			<span class="accuracy">{move.accuracy ? move.accuracy + "%" : "-"}</span>
-			<span class={"power " + powerColor}>
-				{move.power ? Math.floor(powerModifier * move.power) : "-"}
-			</span>
+			<span class={"power " + powerColor}>{power}</span>
 		</div>
 	);
 }

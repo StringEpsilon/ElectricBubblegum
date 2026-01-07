@@ -1,20 +1,16 @@
 import { OpponentTeam } from "./OpponentTeam";
-import { GameState } from "../../../data/GameState";
+import { useComputed } from "@preact/signals";
+import { battleInfo } from "../useBattleInfo";
 
-type Props = {
-	teamIndex: number, 
-	name: string | null,
-	gameState: GameState
-}
+export function Opponent() {
+	const name = useComputed(() => battleInfo.value.trainerName);
 
-export function Opponent(props: Props) {
-	const defaultIndex = -1;
 	return (
 		<div class={"opponent"}>
 			<h2>
-				Battle: {props.name}
+				Battle: {name}
 			</h2>
-			<OpponentTeam currentPokemon={props.teamIndex}/>
+			<OpponentTeam />
 		</div>
 	);
 }
