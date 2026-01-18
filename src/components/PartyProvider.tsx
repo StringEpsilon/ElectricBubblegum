@@ -4,8 +4,8 @@ import { getOpponentPokemonMap } from "../interface/PanelRight/functions/getOppo
 import { OpponentPokemon } from "../interface/PanelRight/types/OpponentPokemon";
 import { computed, effect, signal } from "@preact/signals";
 import { gameSignal } from "./GameContext";
-import { gameState, getGameState } from "../data/gameState";
 import { subscribePaths } from "../functions/subscribePaths";
+import { battlePokemon, normalizeActivePokemon } from "./playerStatsSignal";
 
 export const opponentPartyMap = signal<PropertyMap<OpponentPokemon> | null>(null);
 
@@ -22,9 +22,9 @@ effect(() => {
 		true
 	);
 });
-subscribePaths(["meta.state"], () => gameState.value = getGameState());
 
 export const opponenStatsSignal = signal<OpponentPokemon | null>(null);
+
 effect(() => {
 	const map = opponentPartyMap.value;
 	if (map !== null) {
@@ -32,7 +32,11 @@ effect(() => {
 		Object.getOwnPropertyNames(map).forEach((key) => {
 			entries.push(map[key as keyof PropertyMap<OpponentPokemon>]);
 		});
-		return subscribePaths(entries, () => opponenStatsSignal.value = mapPropertyObject(map));
+		const update =() => {
+			opponenStatsSignal.value = mapPropertyObject(map)
+		}
+		update();
+		return subscribePaths(entries, update);
 	}
 });
 

@@ -34,12 +34,15 @@ const getBattleInfo = (): BattleInfo => {
 	if (Store.getProperty<number>("battle.opponent.id")?.value === 0) {
 		type = "None";
 	}
+	if (Store.getProperty<number>("battle.opponent.id")?.value !== 0) {
+		type === "Trainer";
+	}
 	const trainerName = (Store.getProperty<string>("battle.opponent.trainer")?.value)!;
 	return {
 		type: type,
 		trainerName: trainerName,
 		currentPokemon: Store.getProperty<number>("battle.opponent.party_position")?.value ?? 0,
-		teamSize: Store.getProperty<number>("battle.opponent.team_count")?.value ?? 0,
+		teamSize: Store.getProperty<number>("battle.opponent.team_count")?.value ?? 1,
 		weather: Store.getProperty<string>("battle.field.weather")?.value ?? "",
 	};
 }

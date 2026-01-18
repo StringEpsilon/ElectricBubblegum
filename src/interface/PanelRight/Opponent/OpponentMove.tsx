@@ -4,6 +4,7 @@ import { getPropertyInvariant } from "../../../functions/getPropertyInvariant";
 import { getMovePowerModifier } from "../../../functions/battle/getMovePowerModifier";
 import { playerDexSignal } from "../../../signals/playerDexSignal";
 import { battleInfo } from "../useBattleInfo";
+import { battlePokemon } from "../../../components/playerStatsSignal";
 
 export function OpponentMove(props: { moveId: string | null; attacker: string }) {
 	const { generation } = gameSignal.value;
@@ -16,9 +17,8 @@ export function OpponentMove(props: { moveId: string | null; attacker: string })
 	}
 
 	let effectiveness = getMovePowerModifier(
-		opponentDexEntry, 
-		"", 
-		playerDex, 
+		battlePokemon.value.opponent, 
+		battlePokemon.value.player, 
 		move, 
 		generation,
 		battleInfo.value.weather,
@@ -28,9 +28,9 @@ export function OpponentMove(props: { moveId: string | null; attacker: string })
 		? "curse"
 		: move.type).toLowerCase();
 	let powerColor = "";
-	if (effectiveness.modifier > 1) {
+	if (effectiveness.typeBonus > 1) {
 		powerColor = "text-green";
-	} else if (effectiveness.modifier < 1) {
+	} else if (effectiveness.typeBonus < 1) {
 		powerColor = "text-red";
 	}
 	if (effectiveness.isSTAB) {

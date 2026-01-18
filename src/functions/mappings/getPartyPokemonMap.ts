@@ -11,6 +11,9 @@ export function getPartyPokemonMap(
 		: `player.team.${position}`;
 	return {
 		species: `${basePath}.species`,
+		friendship:  `player.team.${position}.friendship`,
+		type_1: `${basePath}.type_1`,
+		type_2: `${basePath}.type_2`,
 		nickname: `${basePath}.nickname`,
 		xp:`${basePath}.exp`,
 		level: `${basePath}.level`,

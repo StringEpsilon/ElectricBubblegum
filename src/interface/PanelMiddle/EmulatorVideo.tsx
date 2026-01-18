@@ -5,7 +5,7 @@ export function EmulatorVideo() {
 	const source = videoSignal.value;
 	if (source === null) {
 		return (
-			<div class="video-container">
+			<div class="video-container" style={{"textAlign": "left", overflow: "scroll"}}>
 				<button type="button" onClick={requestCapture}>Capture emulator window</button>
 			</div>
 		);

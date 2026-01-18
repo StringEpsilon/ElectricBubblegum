@@ -13,7 +13,6 @@ window.addEventListener("onGamepadButton", (e: any) => {
 	const shortcuts = shortcutsSignal.peek()
 	const { generation } = gameSignal.peek();
 	if (e.detail.button === shortcuts[Shortcut.movePoolNext]) {
-		console.log("Pressed assigned button");
 		switch (movepoolSignal.peek()) {
 			case "level":
 				movepoolSignal.value = "tmhm";

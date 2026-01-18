@@ -13,7 +13,7 @@ export function StatBlock({ currentMon, critRate }: Props) {
 	const { generation } = gameSignal.value;
 	const heldItem = useComputed(() => playerStatsSignal.value?.heldItem).value ?? "";
 	let stats = applyStageModifiers(currentMon, generation);
-	stats = applyItemStatModifier(heldItem, stats);
+	stats = applyItemStatModifier(heldItem, stats, generation, currentMon?.species);
 	stats = applyBadgeBoosts(stats, badgeSignal.value, generation);
 	return (
 		<TableRow title="Stats">

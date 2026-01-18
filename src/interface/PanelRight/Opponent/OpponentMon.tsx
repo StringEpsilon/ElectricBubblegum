@@ -31,11 +31,11 @@ export function OpponentMon(props: { index: number; }) {
 	return (
 		<div class={"opponent-mon " + monClass}>
 			<div>
-				<BarGraph label={`Level ${mon.level} ${mon.species}`} percent={(mon.hp / mon.hpMax * 100).toFixed(0)} />
+				<BarGraph label={`Level ${mon.level} ${mon.species}`} percent={(mon.hp / mon.maxHp * 100).toFixed(0)} />
 			</div>
 			<div class={"opponent-mon-body"}>
 				<div class="opponent-stat-block">
-					<OpponentStat value={mon.hpMax} color="hp" modifier={0} applyMod={applyMod} />
+					<OpponentStat value={mon.maxHp} color="hp" modifier={0} applyMod={applyMod} />
 					<OpponentStat value={mon.speed} color="speed" modifier={mon.speedMod} applyMod={applyMod} />
 					<OpponentStat value={mon.attack} color="attack" modifier={mon.attackMod} applyMod={applyMod} />
 					<OpponentStat value={mon.defense} color="defense" modifier={mon.defenseMod} applyMod={applyMod} />

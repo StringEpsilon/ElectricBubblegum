@@ -9,6 +9,7 @@ import { PartyMoves } from "./PartyMoves";
 import { PlayerParty } from "./PlayerParty";
 import { signal } from "@preact/signals";
 import { Shortcut, shortcutsSignal } from "../../signals/shortCutsSignal";
+import { gameState } from "../../data/gameState";
 
 
 export const panelSignal = signal<"active" | "party">("active");
@@ -16,7 +17,6 @@ export const panelSignal = signal<"active" | "party">("active");
 window.addEventListener("onGamepadButton", (e: any) => {
 	const shortcuts = shortcutsSignal.peek()
 	if (e.detail.button === shortcuts[Shortcut.pokemonInfo]) {
-		console.log("Pressed assigned button " + e.detail.button);
 		panelSignal.value = panelSignal.peek() === "active" ? "party" : "active";
 	}
 });
@@ -109,6 +109,13 @@ function ActivePokemon() {
 
 		critRate = ((dexEntry.base_stats.speed / 2) / 256 * 100).toFixed(2);
 		hpPercent = (current.hp / current.maxHp * 100).toFixed(2);
+	}
+	if (!current) {
+		return(
+			<pre>
+				{JSON.stringify(gameState.value)}
+			</pre>
+		)
 	}
 
 	return (

@@ -16,9 +16,9 @@ export function getOpponentPokemonMap(
 				: gen1_2_4opponentPartyPokemon(index);
 		case "3":
 			if (!isActive) {
-				return gen3_opponentPartyPokemon(index);
+				return gen1_2_4opponentPartyPokemon(index);
 			}
-			return gen3_opponentActivePokemon();
+			return gen1_2_4opponentActivePokemon(index);
 	}
 }
 function gen1_2_4opponentPartyPokemon(index: number): PropertyMap<OpponentPokemon> {
@@ -26,7 +26,12 @@ function gen1_2_4opponentPartyPokemon(index: number): PropertyMap<OpponentPokemo
 		species: `battle.opponent.team.${index}.species`,
 		level: `battle.opponent.team.${index}.level`,
 		hp: `battle.opponent.team.${index}.stats.hp`,
-		hpMax: `battle.opponent.team.${index}.stats.hp_max`,
+		maxHp: `battle.opponent.team.${index}.stats.hp_max`,
+		type_1: ``,
+		type_2: ``,
+		ability: `battle.opponent.team.${index}.stats.ability`,
+		heldItem: `battle.opponent.team.${index}.stats.held_item`,
+		friendship: `battle.opponent.team.${index}.stats.friendship`,
 		attack: `battle.opponent.team.${index}.stats.attack`,
 		defense: `battle.opponent.team.${index}.stats.defense`,
 		speed: `battle.opponent.team.${index}.stats.speed`,
@@ -48,7 +53,12 @@ function gen1_2_4opponentActivePokemon(index: number): PropertyMap<OpponentPokem
 		species: `battle.opponent.active_pokemon.species`,
 		level: `battle.opponent.team.${index}.level`,
 		hp: `battle.opponent.active_pokemon.stats.hp`,
-		hpMax: `battle.opponent.active_pokemon.stats.hp_max`,
+		type_1: `battle.opponent.active_pokemon.type_1`,
+		type_2: `battle.opponent.active_pokemon.type_2`,
+		ability: `battle.opponent.team.${index}.stats.ability`,
+		heldItem: `battle.opponent.active_pokemon.held_item`,
+		friendship: `battle.opponent.team.${index}.stats.friendship`,
+		maxHp: `battle.opponent.team.${index}.stats.hp_max`,
 		attack: `battle.opponent.active_pokemon.stats.attack`,
 		defense: `battle.opponent.active_pokemon.stats.defense`,
 		speed: `battle.opponent.active_pokemon.stats.speed`,
@@ -63,50 +73,5 @@ function gen1_2_4opponentActivePokemon(index: number): PropertyMap<OpponentPokem
 		move2: `battle.opponent.active_pokemon.moves.1.move`,
 		move3: `battle.opponent.active_pokemon.moves.2.move`,
 		move4: `battle.opponent.active_pokemon.moves.3.move`,
-	};
-}
-
-function gen3_opponentPartyPokemon(index: number): PropertyMap<OpponentPokemon> {
-	return {
-		species: `battle.trainer.team.${index}.species`,
-		level: `battle.trainer.team.${index}.level`,
-		hp: `battle.trainer.team.${index}.hp`,
-		hpMax: `battle.trainer.team.${index}.maxHp`,
-		attack: `battle.trainer.team.${index}.attack`,
-		defense: `battle.trainer.team.${index}.defense`,
-		speed: `battle.trainer.team.${index}.speed`,
-		specialAttack: `battle.trainer.team.${index}.specialAttack`,
-		specialDefense: `battle.trainer.team.${index}.specialDefense`,
-		attackMod: "",
-		defenseMod: "",
-		speedMod: "",
-		specialAttackMod: "",
-		specialDefenseMod: "",
-		move1: `battle.trainer.team.${index}.move1`,
-		move2: `battle.trainer.team.${index}.move2`,
-		move3: `battle.trainer.team.${index}.move3`,
-		move4: `battle.trainer.team.${index}.move4`,
-	};
-}
-function gen3_opponentActivePokemon(): PropertyMap<OpponentPokemon> {
-	return {
-		species: `battle.enemyPokemon.species`,
-		level: `battle.enemyPokemon.level`,
-		hp: `battle.enemyPokemon.hp`,
-		hpMax: `battle.enemyPokemon.maxHp`,
-		attack: `battle.enemyPokemon.attack`,
-		defense: `battle.enemyPokemon.defense`,
-		speed: `battle.enemyPokemon.speed`,
-		specialAttack: `battle.enemyPokemon.specialAttack`,
-		specialDefense: `battle.enemyPokemon.specialDefense`,
-		attackMod: "battle.enemyPokemon.modStageAttack",
-		defenseMod: "battle.enemyPokemon.modStageDefense",
-		speedMod: "battle.enemyPokemon.modStageSpeed",
-		specialAttackMod: "battle.enemyPokemon.modStageSpecialAttack",
-		specialDefenseMod: "battle.enemyPokemon.modStageSpecialDefense",
-		move1: "battle.enemyPokemon.move1",
-		move2: "battle.enemyPokemon.move2",
-		move3: "battle.enemyPokemon.move3",
-		move4: "battle.enemyPokemon.move4",
 	};
 }

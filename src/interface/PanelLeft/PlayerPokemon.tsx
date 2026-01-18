@@ -30,7 +30,7 @@ export function NormalizeSpeciesName(species: string) {
 
 
 
-export function PlayerPokemon(props: { index: number; }) {
+export function PlayerPartyPokemon(props: { index: number; }) {
 	const { pokedex } = dexContextSignal.value;
 	const { generation } = gameSignal.value;
 	const mon = usePropertyMap<CurrentPokemon>(getPartyPokemonMap(generation === "1", false, props.index));

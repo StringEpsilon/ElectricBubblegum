@@ -8,37 +8,72 @@ export type PartyStats = {
 	specialAttack: number,
 	specialDefense: number,
 }
-export function applyItemStatModifier(heldItem: string, stats: PartyStats|null):PartyStats|null {
+export function applyItemStatModifier(
+	heldItem: string,
+	stats: PartyStats | null,
+	generation: PokemonGeneration,
+	species: string | undefined
+): PartyStats | null {
 	if (!stats) {
 		return stats;
 	}
 	stats = structuredClone(stats);
 	switch (heldItem) {
 		case "Macho Brace":
-			stats.speed = Math.floor(stats.speed*0.5);
+			stats.speed = Math.floor(stats.speed * 0.5);
 			break;
 		case "Choice Band":
-			stats.attack = Math.floor(stats.attack*1.5);
+			stats.attack = Math.floor(stats.attack * 1.5);
 			break;
 		case "Choice Scarf":
-			stats.speed = Math.floor(stats.speed*1.5);
+			stats.speed = Math.floor(stats.speed * 1.5);
 			break;
 		case "Choice Specs":
-			stats.specialAttack = Math.floor(stats.specialAttack*1.5);
+			stats.specialAttack = Math.floor(stats.specialAttack * 1.5);
 			break;
 		case "Thick Club": //  Cubone or Marowak 
-		case "DeepSeaTooth": //  Clamperl
-		case "Deep Sea Scale": //  Clamperl
-		case "Light Ball": //  Pikachu
-		case "Metal Powder": //  Ditto
-		case "Soul Dew": //  Latias, Latios
-		case "Wide Lens": //  boosts Accuracy?!
+			if (species === "Cubone" || species === "Marowak") {
+				stats.attack = Math.floor(stats.attack * 2);
+			}
 			break;
-	}	
+		case "DeepSeaTooth":
+			if (species === "Clamperl") {
+				stats.specialAttack = Math.floor(stats.specialAttack * 2);
+			}
+			break;
+		case "DeepSeaScale":
+			if (species === "Clamperl") {
+				stats.specialDefense = Math.floor(stats.specialAttack * 2);
+			}
+			break;
+		case "Light Ball":
+			if (species === "Pikachu") {
+				if (generation === "2" || generation == "3") {
+					stats.specialAttack = Math.floor(stats.specialAttack * 2);
+				}
+			}
+			break;
+		case "Metal Powder":
+			if (species === "Ditto") {
+				if (generation === "2") {
+					stats.defense = Math.floor(stats.defense * 1.5);
+					stats.specialDefense = Math.floor(stats.specialDefense * 1.5);
+				} else {
+					stats.defense = Math.floor(stats.defense * 2);
+				}
+			}
+			break;
+		case "Soul Dew": //  Latias, Latios
+			if (species === "Latias" || species === "Latios") {
+				stats.specialAttack = Math.floor(stats.specialAttack * 1.5);
+				stats.specialDefense = Math.floor(stats.specialDefense * 1.5);
+			}
+			break;
+	}
 	return stats;
 }
 
-export  function stageModifier(value: number, modifier: number|null ) {
+export function stageModifier(value: number, modifier: number | null) {
 	if (modifier === null) {
 		return value;
 	}
@@ -51,8 +86,8 @@ export  function stageModifier(value: number, modifier: number|null ) {
 	return value;
 }
 
-export  function applyStageModifiers(currentMon: CurrentPokemon | null, generation: PokemonGeneration): PartyStats | null {
-	if (!currentMon || generation === "1" ) {
+export function applyStageModifiers(currentMon: CurrentPokemon | null, generation: PokemonGeneration): PartyStats | null {
+	if (!currentMon || generation === "1") {
 		return currentMon;
 	}
 	return {
@@ -64,13 +99,13 @@ export  function applyStageModifiers(currentMon: CurrentPokemon | null, generati
 	}
 }
 
-export function applyBadgeBoosts(stats: PartyStats | null, badges: any, generation: PokemonGeneration): PartyStats|null {
+export function applyBadgeBoosts(stats: PartyStats | null, badges: any, generation: PokemonGeneration): PartyStats | null {
 	if (!stats) {
 		return null;
 	}
 	stats = structuredClone(stats);
 	const factor = badgeBoostFactor[generation];
-	for(let i = 0; i < 8; i++) {
+	for (let i = 0; i < 8; i++) {
 		const stat = badges[i] ? badgeBoosts[generation][i] : null;
 		switch (stat) {
 			case "attack":
@@ -96,7 +131,7 @@ const badgeBoostFactor: Record<PokemonGeneration, number> = {
 	"3": 1.1,
 	"4": 1,
 };
-const badgeBoosts: Record<PokemonGeneration, Record<number, "attack"|"defense"|"special"|"speed">> = {
+const badgeBoosts: Record<PokemonGeneration, Record<number, "attack" | "defense" | "special" | "speed">> = {
 	"1": {
 		0: "attack", // boulder
 		2: "defense", // thunder
