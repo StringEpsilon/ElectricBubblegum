@@ -8,7 +8,15 @@ const defaultBattleProperties = [
 	"battle.opponent.name", 
 	"battle.opponent.party_position", 
 	"battle.opponent.team_count",
-	"battle.opponent.id"
+	"battle.opponent.id",
+	"battle.opponent.team.0.species",
+	"battle.opponent.team.1.species",
+	"battle.opponent.team.2.species",
+	"battle.opponent.team.3.species",
+	"battle.opponent.team.4.species",
+	"battle.opponent.team.5.species",
+	"meta.state",
+	"pointers.callback_1",
 ];
 
 type BattleMode = "None" | "Wild" | "Trainer";
@@ -31,18 +39,27 @@ export const battleInfo = signal<BattleInfo>({
 
 const getBattleInfo = (): BattleInfo => {
 	let type = Store.getProperty<BattleMode>("battle.mode")?.value ?? "None";
+	var opponentId = Store.getProperty<number>("battle.opponent.id")?.value;
 	if (Store.getProperty<number>("battle.opponent.id")?.value === 0) {
 		type = "None";
 	}
-	if (Store.getProperty<number>("battle.opponent.id")?.value !== 0) {
-		type === "Trainer";
+	const trainerName = (Store.getProperty<string>("battle.opponent.trainer")?.value);
+	let teamSize = Store.getProperty<number>("battle.opponent.team_count")?.value ?? 0;
+	// gen3 workaround:
+	if (trainerName && opponentId !== 0 && type === "None" && Store.getProperty("meta.state")?.value === "Battle") {
+		type = "Trainer";
+		teamSize = 1;
+		for(let i=1; i < 6; i++) {
+			if (Store.getProperty(`battle.opponent.team.${i}.species`)?.value) {
+				teamSize++;
+			}
+		}
 	}
-	const trainerName = (Store.getProperty<string>("battle.opponent.trainer")?.value)!;
 	return {
 		type: type,
-		trainerName: trainerName,
+		trainerName: trainerName ?? "",
 		currentPokemon: Store.getProperty<number>("battle.opponent.party_position")?.value ?? 0,
-		teamSize: Store.getProperty<number>("battle.opponent.team_count")?.value ?? 1,
+		teamSize: teamSize,
 		weather: Store.getProperty<string>("battle.field.weather")?.value ?? "",
 	};
 }

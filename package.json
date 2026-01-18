@@ -13,7 +13,7 @@
     "@fontsource-variable/roboto-mono": "^5.2.8",
     "@preact/signals": "^2.5.1",
     "material-symbols": "^0.40.2",
-    "pokeaclient": "^0.5.1",
+    "pokeaclient": "^0.7.0",
     "preact": "^10.28.1"
   },
   "devDependencies": {
