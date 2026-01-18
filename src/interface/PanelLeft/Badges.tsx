@@ -1,37 +1,27 @@
-import { propertySignal } from "../../functions/propertySignal";
+import { signal } from "@preact/signals";
 import "./badges.css";
+import { For } from "@preact/signals/utils";
+import { subscribePaths } from "../../functions/subscribePaths";
+import { Store } from "../../PokeAByte/PropertyStore";
 
-type Badges = {
-	"1": boolean,
-	"2": boolean,
-	"3": boolean,
-	"4": boolean,
-	"5": boolean,
-	"6": boolean,
-	"7": boolean,
-	"8": boolean,
+let badgePaths: string[] = [];
+for(let i = 0; i < 16; i++) {
+	badgePaths.push(`player.badges.${i}`);
 }
 
-const badge1 = propertySignal<boolean>("player.badges.badge1");
-const badge2 = propertySignal<boolean>("player.badges.badge2");
-const badge3 = propertySignal<boolean>("player.badges.badge3");
-const badge4 = propertySignal<boolean>("player.badges.badge4");
-const badge5 = propertySignal<boolean>("player.badges.badge5");
-const badge6 = propertySignal<boolean>("player.badges.badge6");
-const badge7 = propertySignal<boolean>("player.badges.badge7");
-const badge8 = propertySignal<boolean>("player.badges.badge8");
+export const badgeSignal = signal<boolean[]>(badgePaths.map(() => false).slice(0, 8));
+export const allBadges = signal<boolean[]>(badgePaths.map(() => false));
+subscribePaths(badgePaths, (updatedPath) => {
+	var newValue = structuredClone(allBadges.value);
+	newValue[Number(updatedPath.split(".").at(2))] = Store.getProperty(updatedPath)?.value ?? false;
+	allBadges.value = newValue;
+	badgeSignal.value = newValue.slice(0, 8);
+});
 
 export function Badges() {
 	return (
 		<div class="badges">
-			<input type="checkbox" checked={badge1} />
-			<input type="checkbox" checked={badge2} />
-			<input type="checkbox" checked={badge3} />
-			<input type="checkbox" checked={badge4} />
-			<input type="checkbox" checked={badge5} />
-			<input type="checkbox" checked={badge6} />
-			<input type="checkbox" checked={badge7} />
-			<input type="checkbox" checked={badge8} />
+			<For each={badgeSignal} children={value => <input type="checkbox" checked={value} />} />
 		</div>
 	);
 }

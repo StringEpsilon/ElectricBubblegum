@@ -1,8 +1,9 @@
 import { dexContextSignal } from "../../../components/DexContext";
 import { gameSignal } from "../../../components/GameContext";
 import { getPropertyInvariant } from "../../../functions/getPropertyInvariant";
-import { getMovePowerModifier, getSTAB } from "../../../functions/battle/getMovePowerModifier";
+import { getMovePowerModifier } from "../../../functions/battle/getMovePowerModifier";
 import { playerDexSignal } from "../../../signals/playerDexSignal";
+import { battleInfo } from "../useBattleInfo";
 
 export function OpponentMove(props: { moveId: string | null; attacker: string }) {
 	const { generation } = gameSignal.value;
@@ -14,7 +15,15 @@ export function OpponentMove(props: { moveId: string | null; attacker: string })
 		return <span>&nbsp;</span>;
 	}
 
-	let effectiveness = getMovePowerModifier(opponentDexEntry,playerDex, move);
+	let effectiveness = getMovePowerModifier(
+		opponentDexEntry, 
+		"", 
+		playerDex, 
+		move, 
+		generation,
+		battleInfo.value.weather,
+		[]
+	);
 	let nameStyle = (move.move === "Curse"
 		? "curse"
 		: move.type).toLowerCase();

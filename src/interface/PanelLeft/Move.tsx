@@ -2,10 +2,12 @@ import { getPropertyInvariant } from "../../functions/getPropertyInvariant";
 import { gameSignal } from "../../components/GameContext";
 import { dexContextSignal } from "../../components/DexContext";
 import { playerStatsSignal } from "../../components/playerStatsSignal";
-import { getMovePowerModifier, getSTAB } from "../../functions/battle/getMovePowerModifier";
+import { getMovePowerModifier } from "../../functions/battle/getMovePowerModifier";
 import { useComputed } from "@preact/signals";
 import { playerDexSignal } from "../../signals/playerDexSignal";
 import { opponentDexSignal } from "../../signals/opponentDexSignal";
+import { battleInfo } from "../PanelRight/useBattleInfo";
+import { allBadges } from "./Badges";
 
 export type MoveProps = {
 	moveIndex: 1 | 2 | 3 | 4,
@@ -14,7 +16,8 @@ export type MoveProps = {
 export function Move(props: MoveProps) {
 	const dexData = playerDexSignal.value;
 	const currentSpecies = useComputed(() => playerStatsSignal.value?.species);
-	const opponentDexEntry = opponentDexSignal.value
+	const heldItem = useComputed(() => playerStatsSignal.value?.heldItem);
+	const opponentDexEntry =  opponentDexSignal.value;
 	const { moves } = dexContextSignal.value!;
 	const generation = useComputed(() => gameSignal.value.generation).value;
 	const movePP = useComputed(() => playerStatsSignal.value 
@@ -38,7 +41,16 @@ export function Move(props: MoveProps) {
 			</tr>
 		);
 	}
-	let effectiveness = getMovePowerModifier(dexData, opponentDexEntry, move);
+	
+	let effectiveness = getMovePowerModifier(
+		dexData, 
+		heldItem.value ?? "", 
+		opponentDexEntry, 
+		move, 
+		generation, 
+		battleInfo.value.weather,
+		allBadges.value
+	);
 	let nameStyle = (move.move === "Curse"
 		? "curse"
 		: move.type).toLowerCase();

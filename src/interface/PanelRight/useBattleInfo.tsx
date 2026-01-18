@@ -2,7 +2,6 @@ import { subscribePaths } from "../../functions/subscribePaths";
 import { Store } from "../../PokeAByte/PropertyStore";
 import { signal } from "@preact/signals";
 
-
 const defaultBattleProperties = [
 	"battle.mode", 
 	"battle.opponent.trainer", 
@@ -19,13 +18,15 @@ export type BattleInfo = {
 	trainerName: string | null,
 	teamSize: number,
 	currentPokemon: number,
+	weather: string,
 }
 
 export const battleInfo = signal<BattleInfo>({
 	type: "None",
 	currentPokemon: 0,
 	teamSize: 0,
-	trainerName: null
+	trainerName: null,
+	weather: ""
 });
 
 const getBattleInfo = (): BattleInfo => {
@@ -38,7 +39,8 @@ const getBattleInfo = (): BattleInfo => {
 		type: type,
 		trainerName: trainerName,
 		currentPokemon: Store.getProperty<number>("battle.opponent.party_position")?.value ?? 0,
-		teamSize: Store.getProperty<number>("battle.opponent.team_count")?.value ?? 1
+		teamSize: Store.getProperty<number>("battle.opponent.team_count")?.value ?? 0,
+		weather: Store.getProperty<string>("battle.field.weather")?.value ?? "",
 	};
 }
 

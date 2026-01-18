@@ -11,7 +11,16 @@ export const opponentPartyMap = signal<PropertyMap<OpponentPokemon> | null>(null
 
 effect(() => {
 	const opponentPos = computed(() => battleInfo.value.currentPokemon);
-	opponentPartyMap.value = getOpponentPokemonMap(gameSignal.value.generation, opponentPos.value, true)
+	const battleType = computed(() => battleInfo.value.type);
+	if (battleType.value !== "Trainer") {
+		opponentPartyMap.value = null;
+		return;
+	}
+	opponentPartyMap.value = getOpponentPokemonMap(
+		gameSignal.value.generation, 
+		opponentPos.value, 
+		true
+	);
 });
 subscribePaths(["meta.state"], () => gameState.value = getGameState());
 
