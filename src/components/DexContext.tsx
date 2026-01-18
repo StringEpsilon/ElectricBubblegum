@@ -2,7 +2,7 @@ import { PokemonGame, PokemonGeneration, PokemonMove, PokemonSpecies } from "../
 import { effect, signal } from "@preact/signals";
 import { gameSignal } from "./GameContext";
 
-type PokeDex = Record<string, PokemonSpecies>;
+export type PokeDex = Record<string, PokemonSpecies>;
 export type MoveLookup = Record<string, Record<string, PokemonMove>>;
 export type MachineMoveMap = Record<PokemonGeneration, Record<string, string>>;
 export interface PokedexContextData {

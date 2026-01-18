@@ -33,7 +33,7 @@ export function getMovePowerModifier(
 		power: move.power,
 		typeBonus: 1,
 	}
-	if (!attacker || !effectiveness.power || !effectiveness.power) {
+	if (!attacker || !effectiveness.power) {
 		return effectiveness;
 	}
 	if (move.move === "Return") {
@@ -63,6 +63,7 @@ export function getMovePowerModifier(
 			effectiveness.power *= 1.5;
 		}
 	}
+	console.log(move.move + " Stab: " + effectiveness.isSTAB);
 	effectiveness.power *= getWeatherBonus(move, weather, generation);
 	effectiveness.power *= getItemTypeBonus(move, attacker, generation);
 	effectiveness.power *= getBadgeBonus(move, badges, generation);

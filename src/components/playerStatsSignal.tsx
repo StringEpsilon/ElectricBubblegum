@@ -7,7 +7,7 @@ import { getPartyPokemonMap } from "../functions/mappings/getPartyPokemonMap";
 import { mapPropertyObject, PropertyMap } from "../hooks/useGameProperty";
 import { subscribePaths } from "../functions/subscribePaths";
 import { getPropertyInvariant } from "../functions/getPropertyInvariant";
-import { dexContextSignal } from "./DexContext";
+import { dexContextSignal, PokeDex } from "./DexContext";
 import { opponenStatsSignal } from "./PartyProvider";
 
 export const playerStatsSignal = signal<CurrentPokemon | null>(null);
@@ -19,11 +19,11 @@ export const battlePokemon = signal<{player: BattlePokemon|null, opponent: Battl
 
 type normalizablePokemon = Omit<CurrentPokemon, "nickname"|"xp"|"move1pp"|"move2pp"|"move3pp"|"move4pp">
 
-export function normalizeActivePokemon(pokemon: normalizablePokemon|null): BattlePokemon|null {
+export function normalizeActivePokemon(pokemon: normalizablePokemon|null, pokedex: PokeDex): BattlePokemon|null {
 	if (!pokemon || !dexContextSignal.peek()) {
 		return null;
 	}
-	var species =  getPropertyInvariant(dexContextSignal.peek().pokedex, pokemon.species ?? "");
+	var species =  getPropertyInvariant(pokedex, pokemon.species ?? "");
 	if (!species) {
 		return null;
 	}
@@ -62,6 +62,7 @@ batch(() => {
 		if (gameState.value === "No Pokemon") {
 			return;
 		}
+		
 		const generation = gameSignal.value.generation;
 		const map = getPartyPokemonMap(
 			generation === "1",
@@ -76,13 +77,18 @@ batch(() => {
 			});
 			const updateSignals = ()=> {
 				playerStatsSignal.value = mapPropertyObject(map);
-				battlePokemon.value = {
-					opponent: normalizeActivePokemon(opponenStatsSignal.value),
-					player: normalizeActivePokemon(playerStatsSignal.value),
-				}
 			}
 			updateSignals();
 			return subscribePaths(entries, updateSignals);
+		}
+	});
+	effect(() => {
+		const gameData = dexContextSignal.value;
+		if (gameData?.pokedex) {
+			battlePokemon.value = {
+				opponent: normalizeActivePokemon(opponenStatsSignal.value, gameData?.pokedex),
+				player: normalizeActivePokemon(playerStatsSignal.value, gameData?.pokedex),
+			}
 		}
 	});
 });
