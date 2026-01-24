@@ -47,6 +47,7 @@ export type BattlePokemon  = {
 	type_2: PokemonType,
 	level: number;
 	friendship: number, 
+	statusCondition?: string, 
 	stats: {
 		hp: number;	
 		maxHp: number;

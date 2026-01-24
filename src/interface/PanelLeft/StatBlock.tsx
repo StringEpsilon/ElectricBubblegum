@@ -2,10 +2,11 @@ import "./stat-block.css";
 import { CurrentPokemon } from "../../data/CurrentPokemon";
 import { TableRow } from "../../components/TableRow";
 import { gameSignal } from "../../components/GameContext";
-import { playerStatsSignal } from "../../components/playerStatsSignal";
+import { battlePokemon, playerStatsSignal } from "../../components/playerStatsSignal";
 import { useComputed } from "@preact/signals";
 import { badgeSignal } from "./Badges";
-import { applyBadgeBoosts, applyItemStatModifier, applyStageModifiers } from "../../functions/battle/statFunctions";
+import { applyAbilities, applyBadgeBoosts, applyItemStatModifier, applyStageModifiers, PartyStats } from "../../functions/battle/statFunctions";
+import { battleInfo } from "../PanelRight/useBattleInfo";
 
 type Props = { currentMon: CurrentPokemon | null; critRate: string };
 
@@ -14,6 +15,12 @@ export function StatBlock({ currentMon, critRate }: Props) {
 	const heldItem = useComputed(() => playerStatsSignal.value?.heldItem).value ?? "";
 	let stats = applyStageModifiers(currentMon, generation);
 	stats = applyItemStatModifier(heldItem, stats, generation, currentMon?.species);
+	stats = applyAbilities(
+		battlePokemon.value.player,
+		stats,
+		battlePokemon.value.opponent,
+		battleInfo.value.weather,
+	);
 	stats = applyBadgeBoosts(stats, badgeSignal.value, generation);
 	return (
 		<TableRow title="Stats">
@@ -63,4 +70,3 @@ function StatBox(props: StatBlockProps) {
 		</div>
 	);
 }
-

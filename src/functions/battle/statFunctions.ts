@@ -1,5 +1,6 @@
-import { CurrentPokemon } from "../../data/CurrentPokemon";
+import { BattlePokemon, CurrentPokemon } from "../../data/CurrentPokemon";
 import { PokemonGeneration } from "../../data/DataTypes";
+import { Weather } from "../../data/Weather";
 
 export type PartyStats = {
 	speed: number,
@@ -73,11 +74,14 @@ export function applyItemStatModifier(
 	return stats;
 }
 
-export function stageModifier(value: number, modifier: number | null) {
+export function stageModifier(value: number, modifier: number | null, hasSimple: boolean) {
 	if (modifier === null) {
 		return value;
 	}
 	if (modifier > 0) {
+		if (hasSimple) {
+			value = Math.max(6, value*2);
+		}
 		return Number(value) * (2 + Number(modifier)) / 2
 	}
 	if (modifier < 0) {
@@ -90,12 +94,13 @@ export function applyStageModifiers(currentMon: CurrentPokemon | null, generatio
 	if (!currentMon || generation === "1") {
 		return currentMon;
 	}
+	const hasSimple = currentMon.ability === "Simple";
 	return {
-		speed: stageModifier(currentMon.speed, currentMon.speedMod),
-		attack: stageModifier(currentMon.attack, currentMon.attackMod),
-		defense: stageModifier(currentMon.defense, currentMon.defenseMod),
-		specialAttack: stageModifier(currentMon.specialAttack, currentMon.specialAttackMod),
-		specialDefense: stageModifier(currentMon.specialDefense, currentMon.specialDefenseMod),
+		speed: stageModifier(currentMon.speed, currentMon.speedMod, hasSimple),
+		attack: stageModifier(currentMon.attack, currentMon.attackMod, hasSimple),
+		defense: stageModifier(currentMon.defense, currentMon.defenseMod, hasSimple),
+		specialAttack: stageModifier(currentMon.specialAttack, currentMon.specialAttackMod, hasSimple),
+		specialDefense: stageModifier(currentMon.specialDefense, currentMon.specialDefenseMod, hasSimple),
 	}
 }
 
@@ -151,4 +156,57 @@ const badgeBoosts: Record<PokemonGeneration, Record<number, "attack" | "defense"
 		6: "special", // dynamo
 	},
 	"4": {},
+}
+
+
+export function applyAbilities(attacker: BattlePokemon | null, stats: PartyStats|null, defender: BattlePokemon | null, weather: string) {
+	if (attacker === null || stats === null) {
+		return null;
+	}
+	switch (attacker.ability) {
+		case "Hustle":
+			stats.attack *= 1.5;
+			break;
+		case "Marvel Scale":
+			if (attacker.statusCondition) {
+				stats.defense *= 1.5;
+			}
+			break
+		case "Quick Feet":
+			if (attacker.statusCondition) {
+				stats.speed *= 1.5;
+			}
+			break;
+		case "Guts":
+			if (attacker.statusCondition) {
+				stats.attack *= 1.5;
+			}
+			break;
+		case "Huge Power":
+		case "Pure Power":
+			stats.attack *= 2;
+			break;
+		case "Chlorophyll":
+			if (weather === Weather.Sun) {
+				stats.speed *= 2;
+			}
+			break;
+		case "Swift Swim":
+			if (weather === "Rain") {
+				stats.speed *= 2;
+			}
+			break;
+		case "Unburden":
+			// TODO.
+			break;
+		case "Simple":
+			// Handled in the stage modifier code.
+			break;
+		case "Solar Power":
+			if (weather === Weather.Sun) {
+				stats.specialAttack *= 1.5;
+			}
+			break;		
+	}
+	return stats;
 }

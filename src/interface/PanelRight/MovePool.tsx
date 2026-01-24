@@ -31,6 +31,10 @@ function tabClass(value: boolean) {
 	return "tab tab-sideways " + (value ? "active" : "inactive");
 }
 
+function setTab(value: keyof PokemonMovePool) {
+	movepoolSignal.value = value;
+}
+
 export function MovePool() {
 	const { machineMoveMap, moves } = dexContextSignal.value;
 	const level = playerStatsSignal.value?.level ?? 1;
@@ -41,23 +45,14 @@ export function MovePool() {
 	return (
 		<>
 			<span class="tab-bar">
-				<button
-					class={tabClass(tab === "level")}
-					onClick={() => movepoolSignal.value = "level"}
-				>
+				<button class={tabClass(tab === "level")} onClick={() => setTab("level")}>
 					Level
 				</button>
-				<button
-					class={tabClass(tab === "tmhm")}
-					onClick={() => movepoolSignal.value = "tmhm"}
-				>
+				<button class={tabClass(tab === "tmhm")} onClick={() => setTab("tmhm")}>
 					Machine
 				</button>
 				{generation !== "1" &&
-					<button
-						class={tabClass(tab === "tutor")}
-						onClick={() => movepoolSignal.value = "tutor"}
-					>
+					<button class={tabClass(tab === "tutor")} onClick={() => setTab("tutor")}>
 						Tutor
 					</button>
 				}
