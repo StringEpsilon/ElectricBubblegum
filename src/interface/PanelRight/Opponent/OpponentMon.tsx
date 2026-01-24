@@ -31,7 +31,7 @@ export function OpponentMon(props: { index: number; }) {
 	return (
 		<div class={"opponent-mon " + monClass}>
 			<div>
-				<BarGraph label={`Level ${mon.level} ${mon.species}`} percent={(mon.hp / mon.maxHp * 100).toFixed(0)} />
+				<BarGraph label={`Level ${mon.level} ${mon.species}`} value={mon.hp} max={mon.maxHp} />
 			</div>
 			<div class={"opponent-mon-body"}>
 				<div class="opponent-stat-block">
@@ -51,8 +51,18 @@ export function OpponentMon(props: { index: number; }) {
 							</div>
 						</>
 						: <>
-							<OpponentStat value={mon.specialAttack} color="specialAttack" modifier={mon.specialAttackMod} applyMod={applyMod} />
-							<OpponentStat value={mon.specialDefense} color="specialDefense" modifier={mon.specialDefenseMod} applyMod={applyMod} />
+							<OpponentStat 
+								value={mon.specialAttack} 
+								color="specialAttack" 
+								modifier={mon.specialAttackMod} 
+								applyMod={applyMod} 
+							/>
+							<OpponentStat 
+								value={mon.specialDefense} 
+								color="specialDefense" 
+								modifier={mon.specialDefenseMod} 
+								applyMod={applyMod} 
+							/>
 						</>
 					}
 				</div>

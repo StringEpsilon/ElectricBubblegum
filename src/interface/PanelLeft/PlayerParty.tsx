@@ -1,6 +1,5 @@
 import { PlayerPartyPokemon } from "./PlayerPokemon";
 
-
 export function PlayerParty() {
 	return (
 		<div class={"player-party"}>
