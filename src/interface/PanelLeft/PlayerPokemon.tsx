@@ -62,7 +62,7 @@ export function PlayerPartyPokemon(props: { index: number; }) {
 	);
 }
 
-export function normalizeStatusCondition(condition: string) {
+export function normalizeStatusCondition(condition: string|undefined) {
 	switch (condition) {
 		case "SLP":
 			return "Asleep";
@@ -75,4 +75,5 @@ export function normalizeStatusCondition(condition: string) {
 		case "PRZ":
 			return "Paralyzed";
 	}
+	return condition;
 }

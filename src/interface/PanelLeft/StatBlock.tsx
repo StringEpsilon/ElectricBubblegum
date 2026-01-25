@@ -2,26 +2,27 @@ import "./stat-block.css";
 import { CurrentPokemon } from "../../data/CurrentPokemon";
 import { TableRow } from "../../components/TableRow";
 import { gameSignal } from "../../components/GameContext";
-import { battlePokemon, playerStatsSignal } from "../../components/playerStatsSignal";
-import { useComputed } from "@preact/signals";
+import { battlePokemon } from "../../components/playerStatsSignal";
 import { badgeSignal } from "./Badges";
-import { applyAbilities, applyBadgeBoosts, applyItemStatModifier, applyStageModifiers, PartyStats } from "../../functions/battle/statFunctions";
+import { applyAbilities, applyBadgeBoosts, applyItemStatModifier, applyStageModifiers, applyStatusConditionModifier } from "../../functions/battle/statFunctions";
 import { battleInfo } from "../PanelRight/useBattleInfo";
 
 type Props = { currentMon: CurrentPokemon | null; critRate: string };
 
 export function StatBlock({ currentMon, critRate }: Props) {
 	const { generation } = gameSignal.value;
-	const heldItem = useComputed(() => playerStatsSignal.value?.heldItem).value ?? "";
 	let stats = applyStageModifiers(currentMon, generation);
-	stats = applyItemStatModifier(heldItem, stats, generation, currentMon?.species);
-	stats = applyAbilities(
-		battlePokemon.value.player,
-		stats,
-		battlePokemon.value.opponent,
-		battleInfo.value.weather,
-	);
-	stats = applyBadgeBoosts(stats, badgeSignal.value, generation);
+	if (generation !==  "1" && generation !== "2") {
+		stats = applyItemStatModifier(battlePokemon.value.player, stats, generation);
+		stats = applyStatusConditionModifier(battlePokemon.value.player, stats);
+		stats = applyAbilities(
+			battlePokemon.value.player,
+			stats,
+			battlePokemon.value.opponent,
+			battleInfo.value.weather,
+		);
+		stats = applyBadgeBoosts(stats, badgeSignal.value, generation);
+	}
 	return (
 		<TableRow title="Stats">
 			<div class="stat-block">

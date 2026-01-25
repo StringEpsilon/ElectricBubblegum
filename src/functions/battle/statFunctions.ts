@@ -1,6 +1,7 @@
 import { BattlePokemon, CurrentPokemon } from "../../data/CurrentPokemon";
 import { PokemonGeneration } from "../../data/DataTypes";
 import { Weather } from "../../data/Weather";
+import { normalizeStatusCondition } from "../../interface/PanelLeft/PlayerPokemon";
 
 export type PartyStats = {
 	speed: number,
@@ -9,17 +10,43 @@ export type PartyStats = {
 	specialAttack: number,
 	specialDefense: number,
 }
-export function applyItemStatModifier(
-	heldItem: string,
-	stats: PartyStats | null,
-	generation: PokemonGeneration,
-	species: string | undefined
-): PartyStats | null {
+
+export function applyStatusConditionModifier(attacker: BattlePokemon | null, stats: PartyStats|null) {
 	if (!stats) {
 		return stats;
 	}
+	const statusCondition = normalizeStatusCondition(attacker?.statusCondition);
+	switch (statusCondition) {
+		case "Asleep":
+			break;
+		case "Poisoned":
+			break;
+		case "Burned":
+			if (attacker?.ability != "Guts") {
+				stats.attack *= 2;
+			}
+			break;
+		case "Frozen":
+			break;
+		case "Paralyzed":
+			if (attacker?.ability != "Quick Feed") {
+				stats.speed *= 0.75;
+			}
+		break;
+	}
+	return stats;
+}
+
+export function applyItemStatModifier(
+	pokemon: BattlePokemon | null,
+	stats: PartyStats | null,
+	generation: PokemonGeneration
+): PartyStats | null {
+	if (!stats || !pokemon) {
+		return stats;
+	}
 	stats = structuredClone(stats);
-	switch (heldItem) {
+	switch (pokemon?.heldItem) {
 		case "Macho Brace":
 			stats.speed = Math.floor(stats.speed * 0.5);
 			break;
@@ -33,29 +60,29 @@ export function applyItemStatModifier(
 			stats.specialAttack = Math.floor(stats.specialAttack * 1.5);
 			break;
 		case "Thick Club": //  Cubone or Marowak 
-			if (species === "Cubone" || species === "Marowak") {
+			if (pokemon.dexData.species === "Cubone" || pokemon.dexData.species === "Marowak") {
 				stats.attack = Math.floor(stats.attack * 2);
 			}
 			break;
 		case "DeepSeaTooth":
-			if (species === "Clamperl") {
+			if (pokemon.dexData.species === "Clamperl") {
 				stats.specialAttack = Math.floor(stats.specialAttack * 2);
 			}
 			break;
 		case "DeepSeaScale":
-			if (species === "Clamperl") {
+			if (pokemon.dexData.species === "Clamperl") {
 				stats.specialDefense = Math.floor(stats.specialAttack * 2);
 			}
 			break;
 		case "Light Ball":
-			if (species === "Pikachu") {
+			if (pokemon.dexData.species === "Pikachu") {
 				if (generation === "2" || generation == "3") {
 					stats.specialAttack = Math.floor(stats.specialAttack * 2);
 				}
 			}
 			break;
 		case "Metal Powder":
-			if (species === "Ditto") {
+			if (pokemon.dexData.species === "Ditto") {
 				if (generation === "2") {
 					stats.defense = Math.floor(stats.defense * 1.5);
 					stats.specialDefense = Math.floor(stats.specialDefense * 1.5);
@@ -65,7 +92,7 @@ export function applyItemStatModifier(
 			}
 			break;
 		case "Soul Dew": //  Latias, Latios
-			if (species === "Latias" || species === "Latios") {
+			if (pokemon.dexData.species === "Latias" || pokemon.dexData.species === "Latios") {
 				stats.specialAttack = Math.floor(stats.specialAttack * 1.5);
 				stats.specialDefense = Math.floor(stats.specialDefense * 1.5);
 			}

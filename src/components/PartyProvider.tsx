@@ -5,7 +5,6 @@ import { OpponentPokemon } from "../interface/PanelRight/types/OpponentPokemon";
 import { computed, effect, signal } from "@preact/signals";
 import { gameSignal } from "./GameContext";
 import { subscribePaths } from "../functions/subscribePaths";
-import { battlePokemon, normalizeActivePokemon } from "./playerStatsSignal";
 
 export const opponentPartyMap = signal<PropertyMap<OpponentPokemon> | null>(null);
 
