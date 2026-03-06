@@ -224,6 +224,10 @@ function getDefenderAbilityModifier(move: PokemonMove, defender: BattlePokemon|n
 			return (move.type === "Water") 
 				? 0 
 				: 1;
+		case "Sap Sipper":
+			return (move.type === "Grass") 
+				? 0 
+				: 1;
 		case "Motor Drive":
 			return (move.type === "Electric") 
 				? 0 
