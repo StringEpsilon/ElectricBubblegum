@@ -18,27 +18,21 @@ const loadDex = async(game: PokemonGame) => {
 		case "Yellow":
 			// @ts-expect-error
 			return await import("https://cdn.jsdelivr.net/gh/Scotts-Thoughts/data_objects@main/pokedex/yellow.js");
-			break;
 		case "Crystal":
 			// @ts-expect-error
 			return await import("https://cdn.jsdelivr.net/gh/Scotts-Thoughts/data_objects@main/pokedex/crystal.js");
-			break;
 		case "Emerald":
 			// @ts-expect-error
 			return await import("https://cdn.jsdelivr.net/gh/Scotts-Thoughts/data_objects@main/pokedex/emerald.js");
-			break;
 		case "FireRed and LeafGreen":
 			// @ts-expect-error
 			return await import("https://cdn.jsdelivr.net/gh/Scotts-Thoughts/data_objects@main/pokedex/firered_leafgreen.js");
-			break;
 		case "Platinum":
 			// @ts-expect-error
 			return await import("https://cdn.jsdelivr.net/gh/Scotts-Thoughts/data_objects@main/pokedex/platinum.js");
-			break;
 		case "HeartGold and SoulSilver":
 			// @ts-expect-error
 			return await import("https://cdn.jsdelivr.net/gh/Scotts-Thoughts/data_objects@main/pokedex/heartgold_soulsilver.js");
-			break;
 	}
 }
 
