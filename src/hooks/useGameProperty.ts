@@ -5,10 +5,10 @@ import { useEffect, useRef, useState } from "preact/hooks";
 export function mapPropertyObject<T>(map: PropertyMap<T>) {
 	const properties = Store.getAllProperties();
 	const data = {} as T
-	Object.getOwnPropertyNames(map).forEach((key) => {
+	for(let key in map) {
 		const path = map[key as keyof T];
 		data[key as keyof T] = properties[path]?.value ?? null;
-	});
+	}
 	return data;
 }
 
@@ -32,11 +32,7 @@ export function usePropertyMap<T>(map: PropertyMap<T>): T | null {
 	
 	useEffect(() => {
 		if (!shallowCompare(oldMap.current, map)) {
-			const entries: string[] = [];
-			Object.getOwnPropertyNames(map).forEach((key) => {
-				const entry = map[key as keyof T];
-				entries.push(entry);
-			});
+			const entries: string[] = Object.values(map);
 			const onPropertyChange = () => setData(mapPropertyObject(map));
 			oldMap.current = map;
 			if (dispose.current) {

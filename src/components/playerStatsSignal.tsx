@@ -71,10 +71,7 @@ batch(() => {
 		);
 		
 		if (map !== null) {
-			const entries: string[] = [];
-			Object.getOwnPropertyNames(map).forEach((key) => {
-				entries.push(map[key as keyof PropertyMap<CurrentPokemon>]);
-			});
+			const entries: string[] = Object.values(map);
 			const updateSignals = ()=> {
 				playerStatsSignal.value = mapPropertyObject(map);
 			}

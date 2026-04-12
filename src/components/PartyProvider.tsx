@@ -27,10 +27,7 @@ export const opponenStatsSignal = signal<OpponentPokemon | null>(null);
 effect(() => {
 	const map = opponentPartyMap.value;
 	if (map !== null) {
-		const entries: string[] = [];
-		Object.getOwnPropertyNames(map).forEach((key) => {
-			entries.push(map[key as keyof PropertyMap<OpponentPokemon>]);
-		});
+		const entries: string[] = Object.values(map);
 		const update =() => {
 			opponenStatsSignal.value = mapPropertyObject(map)
 		}

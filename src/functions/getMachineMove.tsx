@@ -9,8 +9,8 @@ export function getMachineMove(
 	mappings: MachineMoveMap
 ): PokemonMove | null {
 	moveName = moveName.toLowerCase();
-	var [machine] = Object.entries(mappings[generation])
-		.find(([_, value]) => value.toLowerCase() == moveName)
+	var [machine] = Object.values(mappings[generation])
+		.find((value) => value.toLowerCase() == moveName)
 		?? [null];
 
 	if (machine) {
